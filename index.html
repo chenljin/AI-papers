@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="An interactive gallery of 30 landmark AI and machine-learning papers from 2006 to 2025, with every author, the key equation and how each paper led to the next.">
+<meta name="description" content="An interactive gallery of 30 landmark AI and machine-learning papers from 2006 to 2025, with every author, the key equation, an animated explainer for each paper and how each paper led to the next.">
 <meta property="og:title" content="Thirty Landmark AI Papers">
-<meta property="og:description" content="30 landmark AI/ML papers from 2006 to 2025: authors, key equations and lineage.">
+<meta property="og:description" content="30 landmark AI/ML papers from 2006 to 2025: authors, key equations, animated explainers and lineage.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Thirty Landmark AI Papers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -351,6 +351,85 @@ mjx-container[jax="SVG"] > svg { overflow: visible; min-height: 1px; min-width: 
 .lin-card b { font: 600 14.5px/1.2 var(--f-body); }
 .lin-card span { font: 400 13px/1.3 var(--f-body); color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lin-none { font: 400 14px var(--f-body); color: var(--ink-3); padding: 4px 0; }
+/* Explainer button on the paper page */
+.btn.play { height: auto; min-height: 64px; justify-content: flex-start; gap: 14px; padding: 10px 18px 10px 10px; background: var(--ink); border-color: var(--ink); color: var(--paper); text-align: left; }
+.btn.play:hover { background: color-mix(in srgb, var(--ink) 88%, var(--cat)); }
+.btn.play .pi { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--cat); color: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--cat) 25%, transparent); transition: transform .3s cubic-bezier(.2, .75, .2, 1); }
+.btn.play .pi svg { margin-left: 2px; }
+.btn.play:hover .pi { transform: scale(1.08); }
+.btn.play .pt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.btn.play b { font: 600 15.5px/1.15 var(--f-body); }
+.btn.play small { font: 400 12.5px/1.2 var(--f-body); color: color-mix(in srgb, var(--paper) 70%, transparent); }
+@media (max-width: 980px) { .p-actions .btn.play { flex: 1 1 100%; } }
+
+/* Explainer player: a dark, cinema-style window in both themes */
+dialog.lesson { width: min(1180px, calc(100% - 24px)); max-width: none; max-height: calc(100% - 24px); padding: 0; border: 0; border-radius: 26px; background: #0A0C11; color: var(--on-plate); box-shadow: 0 50px 120px -30px rgba(0, 0, 0, .85), 0 0 0 1px rgba(255, 255, 255, .06); overflow: hidden; color-scheme: dark; }
+dialog.lesson[open] { animation: lsIn .45s cubic-bezier(.2, .75, .2, 1); }
+@keyframes lsIn { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+dialog.lesson::backdrop { background: rgba(4, 6, 9, .78); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.ls-shell { display: flex; flex-direction: column; max-height: calc(100vh - 24px); }
+.ls-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px 12px 22px; }
+.ls-brand { display: flex; align-items: center; gap: 10px; min-width: 0; font: 600 12px/1 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--on-plate-2); white-space: nowrap; }
+.ls-brand #ls-paper { color: var(--on-plate); overflow: hidden; text-overflow: ellipsis; }
+.ls-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--cp); box-shadow: 0 0 12px var(--cp); }
+.ls-sep { opacity: .5; }
+.ls-btn { flex: none; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255, 255, 255, .14); border-radius: 50%; background: rgba(255, 255, 255, .06); color: var(--on-plate); cursor: pointer; transition: background .2s; }
+.ls-btn:hover { background: rgba(255, 255, 255, .14); }
+.ls-btn:focus-visible, .ls-play:focus-visible, .ls-seg:focus-visible { outline: 2px solid var(--cp); outline-offset: 2px; }
+.ls-stage { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: stretch; min-height: 0; }
+.ls-visual { position: relative; align-self: start; margin-left: 16px; aspect-ratio: 600 / 440; max-width: 100%; border-radius: 18px; overflow: hidden; background: var(--plate); box-shadow: inset 0 0 0 1px var(--plate-line); cursor: pointer; }
+.ls-visual canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ls-html { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: clamp(18px, 3vw, 36px); pointer-events: none; }
+.ls-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 12px clamp(20px, 3vw, 36px); overflow-y: auto; }
+.ls-kicker { font: 600 11.5px/1.3 var(--f-body); letter-spacing: .15em; text-transform: uppercase; color: var(--cp); }
+.ls-h { margin: 0; font: 500 clamp(26px, 2.7vw, 38px)/1.08 var(--f-display); font-variation-settings: "opsz" 60; letter-spacing: -.022em; color: var(--on-plate); text-wrap: balance; }
+.ls-sub { margin: -4px 0 0; font: italic 400 17px/1.4 var(--f-display); color: var(--on-plate-2); text-wrap: balance; }
+.ls-meta { margin: 0; font: 400 13.5px/1.45 var(--f-body); color: var(--on-plate-3); }
+.ls-label { margin-top: 6px; font: 600 11px/1 var(--f-body); letter-spacing: .15em; text-transform: uppercase; color: var(--on-plate-3); }
+.ls-p { margin: 0; font: 400 clamp(16.5px, 1.45vw, 19px)/1.6 var(--f-display); font-variation-settings: "opsz" 18; color: rgba(236, 238, 244, .9); max-width: 44ch; text-wrap: pretty; }
+.ls-p.ls-small { font-size: 15.5px; color: var(--on-plate-2); }
+.ls-text.enter > * { animation: lsUp .65s cubic-bezier(.2, .75, .2, 1) both; }
+.ls-text.enter > *:nth-child(2) { animation-delay: .06s; } .ls-text.enter > *:nth-child(3) { animation-delay: .12s; } .ls-text.enter > *:nth-child(4) { animation-delay: .18s; } .ls-text.enter > *:nth-child(n+5) { animation-delay: .24s; }
+@keyframes lsUp { from { opacity: 0; transform: translateY(12px); } }
+.rv { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .75, .2, 1); }
+.rv.on { opacity: 1; transform: none; }
+.ls-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.ls-legend li { display: grid; grid-template-columns: minmax(64px, max-content) minmax(0, 1fr); gap: 14px; align-items: baseline; font: 400 15px/1.45 var(--f-body); color: var(--on-plate-2); }
+.ls-legend .sym { justify-self: end; font-size: 18px; color: var(--on-plate); }
+.ls-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px 22px; margin-top: 6px; }
+.ls-results b { display: block; font: 500 clamp(26px, 2.6vw, 34px)/1 var(--f-display); letter-spacing: -.02em; color: var(--cp); font-variant-numeric: lining-nums tabular-nums; }
+.ls-results span { display: block; margin-top: 7px; font: 400 13.5px/1.4 var(--f-body); color: var(--on-plate-2); }
+.lv-eq { width: 100%; display: flex; flex-direction: column; align-items: stretch; gap: 14px; color: var(--on-plate); }
+.lv-eq-name { text-align: center; font: italic 400 17px var(--f-display); color: var(--on-plate-2); margin-bottom: 8px; }
+.lv-eq-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.lv-eq .p-eq-math.lv-math { color: var(--on-plate); font-size: clamp(17px, 2.3vw, 27px); padding: 6px 2px; overflow: hidden; }
+.lv-num { font: 400 15px var(--f-display); color: var(--on-plate-3); }
+.lv-stats { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 26px 24px; }
+.lv-stat b { display: block; font: 500 clamp(30px, 4vw, 52px)/1 var(--f-display); letter-spacing: -.025em; color: var(--on-plate); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.lv-stat span { display: block; margin-top: 10px; font: 400 14px/1.45 var(--f-body); color: var(--on-plate-2); }
+.ls-bar { display: flex; align-items: center; gap: 12px; padding: 14px 20px 18px; }
+.ls-play { flex: none; width: 50px; height: 50px; border-radius: 50%; border: 0; display: grid; place-items: center; padding: 0; background: var(--on-plate); color: #0A0C11; cursor: pointer; transition: transform .2s; }
+.ls-play:hover { transform: scale(1.06); }
+.ls-play svg { display: block; }
+.ls-play[data-st="play"] svg { margin-left: 2px; }
+.ls-progress { flex: 1 1 auto; display: flex; gap: 6px; min-width: 0; }
+.ls-seg { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 8px 0; border: 0; background: none; color: inherit; cursor: pointer; text-align: left; }
+.ls-seg .tr { position: relative; display: block; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .14); overflow: hidden; }
+.ls-seg .tr i { position: absolute; inset: 0; background: var(--cp); transform-origin: left center; transform: scaleX(0); }
+.ls-seg .lb { font: 500 11.5px/1.2 var(--f-body); color: var(--on-plate-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .2s; }
+.ls-seg.on .lb, .ls-seg:hover .lb { color: var(--on-plate); }
+.ls-count { flex: none; min-width: 40px; text-align: right; font: 500 12px var(--f-mono); color: var(--on-plate-3); font-variant-numeric: tabular-nums; }
+@media (max-width: 880px) {
+  dialog.lesson { width: 100%; height: 100%; max-height: 100%; border-radius: 0; }
+  .ls-shell { height: 100%; max-height: none; }
+  .ls-top { padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
+  .ls-stage { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  .ls-visual { margin: 0 12px; flex: none; align-self: stretch; }
+  .ls-text { flex: 1 1 auto; justify-content: flex-start; padding: 18px 20px 6px; }
+  .ls-seg .lb { display: none; }
+  .ls-bar { padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (min-width: 881px) { .ls-text { max-height: calc((min(1180px, 100vw - 24px) - 16px) * .583 * .7333); } }
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 60; padding: 12px 18px; border-radius: 999px; background: var(--ink); color: var(--paper); font-weight: 600; font-size: 14px; box-shadow: 0 10px 30px -8px rgba(0, 0, 0, .5); }
 
 footer { border-top: 1px solid var(--rule); padding-block: 30px 56px; color: var(--ink-3); font-size: 14px; line-height: 1.6; }
@@ -364,7 +443,6 @@ footer b { color: var(--ink-2); font-weight: 600; }
 </style>
 </head>
 <body>
-
 <header class="wrap mast">
   <div class="intro">
     <div class="mono-label">An annotated gallery · 2006–2025</div>
@@ -466,7 +544,8 @@ footer b { color: var(--ink-2); font-weight: 600; }
       </article>
       <aside class="p-side">
         <div class="p-actions">
-          <a class="btn primary" id="d-link" href="#" target="_blank" rel="noopener noreferrer">Read the paper <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2h6v6M10 2L2.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <button type="button" class="btn play" id="d-play"><span class="pi" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 18 18"><path d="M5 3.2v11.6c0 .6.7 1 1.2.6l9-5.8c.5-.3.5-1 0-1.3l-9-5.8C5.7 2.2 5 2.6 5 3.2z" fill="currentColor"/></svg></span><span class="pt"><b>Play the explainer</b><small>Animated walkthrough · ~1 min</small></span></button>
+          <a class="btn" id="d-link" href="#" target="_blank" rel="noopener noreferrer">Read the paper <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2h6v6M10 2L2.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <button type="button" class="btn" id="d-copy">Copy citation</button>
         </div>
         <dl class="p-facts" id="d-facts"></dl>
@@ -478,6 +557,25 @@ footer b { color: var(--ink-2); font-weight: 600; }
   <div class="toast" id="toast" role="status" hidden></div>
 </dialog>
 <div class="tip" id="tip" hidden></div>
+<dialog class="lesson" id="lesson" aria-labelledby="ls-paper">
+  <div class="ls-shell">
+    <div class="ls-top">
+      <div class="ls-brand"><span class="ls-dot" aria-hidden="true"></span><span id="ls-paper"></span><span class="ls-sep" aria-hidden="true">·</span><span>Explainer</span></div>
+      <button type="button" class="ls-btn" id="ls-close" aria-label="Close explainer"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="ls-stage">
+      <div class="ls-visual" id="ls-visual" title="Click to play or pause"><canvas id="ls-canvas" aria-hidden="true"></canvas><div class="ls-html" id="ls-html" hidden></div></div>
+      <div class="ls-text" id="ls-text" aria-live="polite"></div>
+    </div>
+    <div class="ls-bar">
+      <button type="button" class="ls-play" id="ls-play" aria-label="Pause"></button>
+      <button type="button" class="ls-btn" id="ls-prev" aria-label="Previous slide"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="ls-progress" id="ls-progress"></div>
+      <button type="button" class="ls-btn" id="ls-next" aria-label="Next slide"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="ls-count" id="ls-count"></span>
+    </div>
+  </div>
+</dialog>
 <script>
 /* ---------- Data ---------- */
 const CATS = {
@@ -1358,6 +1456,954 @@ function drawCover(cv, p, t, box) {
   try { MOTIFS[p.id](g, b.w, b.h, t || 0, R, c); } catch (e) { console.error(p.id, e); }
   g.restore();
 }
+/* ---------- Explainer content: the problem, three steps of the key idea, headline results ---------- */
+const LESSONS = {
+  dbn: {
+    problem: 'In 2006, networks with many layers were close to impossible to train. Starting from random weights, backpropagation got stuck, and most researchers had given up on deep nets.',
+    steps: [
+      ['Learn one layer', 'A restricted Boltzmann machine learns to reconstruct the input pixels. Its hidden units turn into simple feature detectors.'],
+      ['Stack and repeat', 'Freeze that layer and feed its features to a new RBM above it. Each layer learns to model the one below, building more abstract features.'],
+      ['Fine-tune the stack', 'The greedy stack is a good starting point. A final pass adjusts all the weights together, and the deep network now trains well.']
+    ],
+    results: [['1.25%', 'test error on MNIST digits, better than the best discriminative methods of the time']]
+  },
+  imagenet: {
+    problem: 'Vision models were trained and tested on small datasets: a few thousand images in a few dozen classes, far too little to learn what the visual world looks like.',
+    steps: [
+      ['Borrow a hierarchy', 'WordNet already organises English nouns into a tree of concepts called synsets, from “entity” down to individual breeds of dog.'],
+      ['Fill it with photos', 'For each concept, image search engines supply candidate pictures, using queries in several languages.'],
+      ['Let people check', 'Workers on Amazon Mechanical Turk verify every candidate, and several votes per image keep the labels clean.']
+    ]
+  },
+  alexnet: {
+    problem: 'Computer vision ran on hand-designed features such as SIFT. Neural networks had been tried, but nobody had trained a big one on enough data to show they could win.',
+    steps: [
+      ['Convolutions', 'Small learned filters slide across the image. Each produces a feature map that responds to edges, colours or textures.'],
+      ['Go deep, go fast', 'Five convolutional layers with ReLU activations and pooling build richer features. ReLU trained several times faster than tanh.'],
+      ['Two GPUs and dropout', 'The network was split across two GPUs, and dropout plus data augmentation kept its 60 million parameters from overfitting.']
+    ]
+  },
+  word2vec: {
+    problem: 'Words were usually treated as unrelated symbols. Earlier neural language models did learn word vectors, but they were too slow to train on really large text collections.',
+    steps: [
+      ['Predict from context', 'Skip-gram slides a window over text and learns to predict the words around each word. Its sibling, CBOW, does the reverse.'],
+      ['Words become points', 'Each word ends up as a vector of a few hundred numbers, and words used in similar contexts land close together.'],
+      ['Directions carry meaning', 'Differences between vectors capture relationships, so king − man + woman lands next to queen.']
+    ],
+    results: [['1.6B', 'words of text learned from in less than a day']]
+  },
+  vae: {
+    problem: 'Models with hidden random variables were powerful in theory, but fitting them to large datasets needed slow sampling or approximations that did not scale.',
+    steps: [
+      ['Encode to a distribution', 'An encoder network maps each input to the mean μ and spread σ of a Gaussian in a small latent space.'],
+      ['Sample, but keep the gradients', 'Draw noise ε and set z = μ + σ ⊙ ε. The randomness sits outside the network, so backpropagation still reaches μ and σ.'],
+      ['Decode and generate', 'A decoder turns z back into data. After training, walking through the latent space produces smooth, new examples.']
+    ]
+  },
+  gan: {
+    problem: 'Generating realistic data meant writing down a probability model and estimating it, which became intractable for complex data such as images.',
+    steps: [
+      ['A forger made of noise', 'The generator G turns random noise into samples. At first they look nothing like the real data.'],
+      ['A detective', 'The discriminator D learns to output the probability that a sample came from the real data rather than from G.'],
+      ['The arms race', 'G learns to fool D while D keeps improving. In theory the game ends when G’s samples match the data and D can only guess ½.']
+    ],
+    results: [['½', 'D’s output everywhere at the theoretical optimum: real and generated data are indistinguishable']]
+  },
+  dropout: {
+    problem: 'Large neural networks memorised their training data. Averaging many separately trained networks helps, but is far too expensive at that size.',
+    steps: [
+      ['A full network', 'Ordinary training uses every unit on every example, and units learn to depend on each other in fragile ways.'],
+      ['Drop units at random', 'For each training case, every hidden unit is kept with probability p, often 0.5. Each step trains a different thinned network.'],
+      ['Use them all at test time', 'At test time every unit is kept and its outgoing weights are scaled by p, which approximates averaging all those thinned networks.']
+    ],
+    results: [['2ⁿ', 'possible thinned networks for n units, all sharing one set of weights']]
+  },
+  attention: {
+    problem: 'Neural translation squeezed the whole source sentence into one fixed-length vector, and quality dropped sharply on long sentences.',
+    steps: [
+      ['Keep every word', 'A bidirectional RNN encodes each source word into its own annotation vector instead of one summary for the sentence.'],
+      ['Look back for each word', 'Before writing each target word, the decoder scores every source annotation and turns the scores into weights with a softmax.'],
+      ['Alignment for free', 'The weights form a soft alignment. It learns, for example, that “European Economic Area” becomes “zone économique européenne”, in reverse order.']
+    ]
+  },
+  adam: {
+    problem: 'Plain stochastic gradient descent uses one learning rate for every weight. On noisy, badly scaled problems it zig-zags and needs careful tuning.',
+    steps: [
+      ['SGD zig-zags', 'In a long, narrow valley, gradient steps bounce between the walls and make slow progress along the floor.'],
+      ['Add momentum', 'Adam keeps a running average of past gradients, m, which smooths the direction of travel and damps the bouncing.'],
+      ['Give each weight its own step', 'It also tracks the average squared gradient, v, and divides by its square root, so every weight gets a step size suited to its scale.']
+    ],
+    results: [['0.001', 'default step size α'], ['0.9', 'default β₁, the momentum decay'], ['0.999', 'default β₂, the squared-gradient decay']]
+  },
+  batchnorm: {
+    problem: 'While a deep network trains, the inputs to each layer keep shifting as earlier layers change. Training needed small learning rates and careful initialisation.',
+    steps: [
+      ['Activations drift', 'During training, a layer’s inputs keep changing their mean and spread, so the layer is always chasing a moving target.'],
+      ['Normalise per mini-batch', 'For every mini-batch, subtract the batch mean and divide by the batch standard deviation, giving zero mean and unit variance.'],
+      ['Learn a scale and a shift', 'Two learned parameters, γ and β, rescale and shift the result, so the layer can still represent whatever it needs.']
+    ],
+    results: [['14×', 'fewer training steps to reach the same accuracy'], ['4.9%', 'top-5 validation error on ImageNet with an ensemble']]
+  },
+  dqn: {
+    problem: 'Reinforcement learning relied on hand-crafted features. Combining it with neural networks on raw inputs was known to be unstable and often diverged.',
+    steps: [
+      ['Pixels in', 'The last four game frames, downscaled to 84 × 84 pixels, are fed to a convolutional network.'],
+      ['One value per action', 'The network outputs a Q-value for every joystick action, an estimate of future score, and the agent picks the highest.'],
+      ['Replay and a frozen target', 'Past experiences are replayed in random order, and targets come from an older copy of the network. Both keep learning stable.']
+    ],
+    results: [['49', 'Atari games learned with one network design and one set of hyperparameters'], ['29', 'games where it scored more than 75% of a professional human tester’s score']]
+  },
+  unet: {
+    problem: 'Segmentation needs a label for every pixel, and biomedical datasets often have only a few dozen annotated images.',
+    steps: [
+      ['Contract', 'The left side of the U convolves and downsamples again and again, halving the resolution and doubling the feature channels to capture context.'],
+      ['Expand', 'The right side upsamples step by step to recover the full resolution needed for a pixel-accurate mask.'],
+      ['Skip connections', 'Feature maps from each level of the contracting side are copied across and joined to the expanding side, restoring fine detail.']
+    ],
+    results: [['92%', 'IoU on the PhC-U373 cell-tracking data; the next best method reached 83%'], ['30', 'training images were enough for the ISBI 2012 neuron-segmentation challenge']]
+  },
+  resnet: {
+    problem: 'Adding layers should never hurt, yet deeper plain networks had higher training error than shallower ones. The extra layers could not even learn to do nothing.',
+    steps: [
+      ['Deeper got worse', 'A 56-layer plain network trains to a higher error than a 20-layer one. This is an optimisation problem, not overfitting.'],
+      ['Add a shortcut', 'Each block adds its input back to its output. The layers only need to learn the residual F(x), and doing nothing becomes easy.'],
+      ['Depth pays off', 'With shortcuts, deeper is better again. On ImageNet, 152-layer ResNets beat every shallower version.']
+    ],
+    results: [['152', 'layers, eight times deeper than VGG nets'], ['3.57%', 'top-5 error on ImageNet, winning ILSVRC 2015']]
+  },
+  alphago: {
+    problem: 'Go has about 250 legal moves per turn and games last about 150 moves, so the game tree is far too large to search exhaustively.',
+    steps: [
+      ['A policy network', 'Trained on 30 million positions from expert games and then by self-play, it proposes promising moves.'],
+      ['A value network', 'A second network looks at a position and predicts the winner, so the search does not have to play every game to the end.'],
+      ['Tree search', 'Monte Carlo tree search explores the moves the policy suggests and scores positions with the value network and fast rollouts.']
+    ],
+    results: [['5–0', 'against European champion Fan Hui in October 2015'], ['99.8%', 'win rate against other Go programs']]
+  },
+  moe: {
+    problem: 'Making a network bigger usually makes every prediction more expensive, because every parameter takes part in every computation.',
+    steps: [
+      ['Many experts', 'One layer is replaced by many expert networks, each a simple feed-forward block, plus a small gating network.'],
+      ['Route each token', 'For every token the gate picks its top k experts. Only those run, and their outputs are mixed using the gate’s weights.'],
+      ['Capacity without the cost', 'Adding experts multiplies the number of parameters while the compute spent on each token stays almost flat.']
+    ],
+    results: [['137B', 'parameters in the largest model, in 2017'], ['1000×', 'more model capacity with only minor losses in efficiency']]
+  },
+  transformer: {
+    problem: 'Recurrent networks read a sentence one word at a time. Training was hard to parallelise, and connecting words far apart was difficult.',
+    steps: [
+      ['Every token looks at every other', 'Self-attention lets each word gather information directly from all the others. Here “it” attends most strongly to “animal”.'],
+      ['Queries, keys and values', 'Each token emits a query, a key and a value. Scaled query–key dot products, passed through softmax, decide how much of each value to take.'],
+      ['Many heads, all at once', 'Several attention heads look for different relationships in parallel, and stacked layers refine the result. No recurrence is needed.']
+    ],
+    results: [['28.4', 'BLEU on WMT 2014 English→German, a new state of the art'], ['3.5 days', 'to train the big model on eight GPUs']]
+  },
+  rlhf: {
+    problem: 'Many goals are easy to recognise but hard to write down as a reward function, such as doing a backflip or behaving helpfully.',
+    steps: [
+      ['Ask for comparisons', 'A person watches two short clips of the agent and picks the one that is closer to the goal.'],
+      ['Learn a reward model', 'A network learns to predict those choices, in effect learning a reward function from human judgement.'],
+      ['Train against it', 'The agent is optimised with reinforcement learning on the learned reward, while new comparisons keep refining it.']
+    ],
+    results: [['<1%', 'of the agent’s interactions needed human feedback'], ['~1 hour', 'of human time to teach complex new behaviours such as a backflip']]
+  },
+  ppo: {
+    problem: 'Policy-gradient methods are fragile: one step that is too large can wreck the policy. Trust-region methods fixed this but were complicated to implement.',
+    steps: [
+      ['Push up good actions', 'Policy gradients make actions that turned out better than expected more likely, and worse ones less likely.'],
+      ['Big steps are risky', 'If one update changes the probabilities too much, performance can collapse and may never recover.'],
+      ['Clip the ratio', 'PPO caps the ratio of new to old probability at 1 ± ε, so there is no gain from moving further in a single step.']
+    ],
+    results: [['0.2', 'clip range ε used in the paper']]
+  },
+  bert: {
+    problem: 'Language models read text left to right, so the representation of a word could not use the words that come after it.',
+    steps: [
+      ['Hide some words', '15% of the tokens are chosen for prediction, and most of them are replaced by a [MASK] symbol.'],
+      ['Read both directions', 'A Transformer encoder uses the context on both sides of each blank to predict the missing word.'],
+      ['Fine-tune everywhere', 'The same pretrained model, plus one small output layer, is fine-tuned for question answering, classification and more.']
+    ],
+    results: [['80.5', 'GLUE score, 7.7 points above the previous best'], ['93.2', 'F1 on SQuAD v1.1 question answering']]
+  },
+  scaling: {
+    problem: 'It was unclear how to spend a bigger compute budget, on more parameters, more data or longer training, and how much improvement to expect.',
+    steps: [
+      ['Loss follows a power law', 'On log–log axes, test loss falls along a straight line as the number of parameters grows.'],
+      ['The same for data and compute', 'Dataset size and training compute show the same smooth trend, across more than seven orders of magnitude.'],
+      ['Predict before you train', 'Extend the line and you can forecast the loss of a much larger model before spending the compute.']
+    ],
+    results: [['7+', 'orders of magnitude covered by the trends'], ['0.076', 'fitted exponent for loss versus parameters']]
+  },
+  gpt3: {
+    problem: 'Language models needed task-specific fine-tuning on thousands of labelled examples before they were useful for a new task.',
+    steps: [
+      ['Scale up', 'Eight models, from 125 million to 175 billion parameters, were trained on the same data.'],
+      ['Learn from the prompt', 'Show a few examples in the prompt, such as English–French word pairs, and the model continues the pattern. No weights change.'],
+      ['Bigger models use examples better', 'The gap between zero-shot and few-shot performance grows with model size: larger models make better use of the examples.']
+    ]
+  },
+  ddpm: {
+    problem: 'GANs made sharp images but were unstable to train, while likelihood-based models trained reliably but produced blurrier samples.',
+    steps: [
+      ['Add noise, step by step', 'A fixed forward process adds a little Gaussian noise at each of T = 1000 steps until only noise remains.'],
+      ['Learn to predict the noise', 'A U-Net sees a noisy image and the step number t, and is trained to predict the noise that was added.'],
+      ['Reverse it to generate', 'Start from pure noise and remove the predicted noise one step at a time until an image appears.']
+    ],
+    results: [['3.17', 'FID on CIFAR-10, a state-of-the-art score'], ['1000', 'denoising steps from noise to image']]
+  },
+  vit: {
+    problem: 'Convolutions were the default for vision. Attention had been added to CNNs, but a pure Transformer had not been shown to compete at scale.',
+    steps: [
+      ['Cut the image into patches', 'The image is split into a grid of 16 × 16-pixel patches.'],
+      ['Patches become tokens', 'Each patch is flattened and linearly projected. A learnable class token and position embeddings are added.'],
+      ['A standard Transformer', 'An unmodified Transformer encoder processes the sequence, and the class token’s final state predicts the label.']
+    ],
+    results: [['88.55%', 'top-1 ImageNet accuracy for ViT-H/14'], ['300M', 'images in the JFT-300M dataset used for pretraining']]
+  },
+  clip: {
+    problem: 'Vision models learned from a fixed list of labels, like ImageNet’s 1,000 classes, so recognising anything new required new labelled data.',
+    steps: [
+      ['Two encoders', 'An image encoder and a text encoder map pictures and captions into the same embedding space.'],
+      ['Match the pairs', 'In each batch, training raises the similarity of every true image–caption pair and lowers it for every mismatched pair.'],
+      ['Zero-shot classification', 'To classify a new image, write each class as a caption, such as “a photo of a dog”, and pick the most similar one.']
+    ],
+    results: [['400M', 'image–text pairs collected from the internet'], ['76.2%', 'zero-shot ImageNet accuracy, matching a ResNet-50 trained on its 1.28M labelled images']]
+  },
+  alphafold: {
+    problem: 'A protein’s function depends on its 3D shape, but determining a structure experimentally can take months or years for a single protein.',
+    steps: [
+      ['The sequence and its relatives', 'The input is the amino-acid sequence plus an alignment of related sequences from other species. Positions that mutate together tend to touch.'],
+      ['Reason about pairs', 'The Evoformer updates a representation of every pair of residues, building up a picture of which parts of the chain are close.'],
+      ['Build the structure', 'A structure module turns that picture into 3D coordinates for every atom, and the prediction is refined by recycling it through the network.']
+    ]
+  },
+  ldm: {
+    problem: 'Diffusion models made excellent images but worked in pixel space, so training and sampling at high resolution took enormous compute.',
+    steps: [
+      ['Compress first', 'An autoencoder maps the image to a much smaller latent grid that keeps the perceptually important content.'],
+      ['Diffuse in latent space', 'The noising and denoising process runs on this compact latent, which is far cheaper.'],
+      ['Steer it with text', 'Cross-attention lets the denoising U-Net attend to an encoded prompt, and the decoder turns the final latent into pixels.']
+    ],
+    results: [['48×', 'fewer numbers in Stable Diffusion: 512 × 512 × 3 pixels become a 64 × 64 × 4 latent']]
+  },
+  cot: {
+    problem: 'Large language models handled many tasks well but struggled with multi-step arithmetic and logic, and scaling alone barely helped there.',
+    steps: [
+      ['Answer directly', 'With a standard prompt, the model jumps straight to an answer, and on multi-step problems it is often wrong.'],
+      ['Show the steps', 'Include worked examples whose answers spell out the reasoning. The model then writes its own steps before answering.'],
+      ['Reasoning emerges with scale', 'The benefit appears only in large models. For PaLM 540B it more than tripled accuracy on grade-school math problems.']
+    ]
+  },
+  instructgpt: {
+    problem: 'GPT-3 predicts likely text, not helpful text. Given an instruction, it often rambled, made things up or ignored the request.',
+    steps: [
+      ['Learn from demonstrations', 'Labelers write good answers to real prompts, and GPT-3 is fine-tuned on them.'],
+      ['Learn what people prefer', 'Labelers rank several model answers to the same prompt, and a reward model learns to predict their rankings.'],
+      ['Optimise with PPO', 'The model is trained with reinforcement learning to maximise that reward, with a penalty for drifting too far from the fine-tuned model.']
+    ],
+    results: [['85%', 'of the time labelers preferred InstructGPT 175B over GPT-3 175B'], ['100×', 'fewer parameters: the 1.3B InstructGPT still beat GPT-3 175B']]
+  },
+  llama: {
+    problem: 'The strongest language models were huge, expensive to run and mostly closed, so few researchers could study or build on them.',
+    steps: [
+      ['Smaller, trained longer', 'Rather than the biggest possible model, train a smaller one on far more tokens. Training costs more, but running it costs far less.'],
+      ['Only public data', 'The training mix uses public sources only: mostly web crawl, plus GitHub, Wikipedia, books, arXiv and StackExchange.'],
+      ['Released to researchers', 'The weights were shared with the research community, spread quickly, and seeded a wave of open fine-tuned models.']
+    ]
+  },
+  r1: {
+    problem: 'Reasoning models like OpenAI’s o1 showed the value of thinking longer before answering, but how to train that ability was not public.',
+    steps: [
+      ['Sample a group of answers', 'For each problem the model writes several answers. Simple rules check each one: is the final answer correct, is the format right?'],
+      ['Compare within the group', 'Each answer’s reward is compared with the group average. Better-than-average answers are reinforced, and no value network is needed.'],
+      ['Reasoning grows by itself', 'Over training, answers get longer and start to include self-checking and reflection, the paper’s “aha moment”.']
+    ],
+    results: [['15.6% → 71.0%', 'AIME 2024 pass@1 of DeepSeek-R1-Zero over RL training'], ['79.8%', 'AIME 2024 pass@1 for the final DeepSeek-R1']]
+  }
+};
+/* ---------- Explainer animations: one per paper, three phases, drawn in a 600×440 stage ---------- */
+const GOOD = '#6EE7A8', BAD = '#FF8590', LW = 600, LH = 440;
+const clamp01 = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const ez = x => { x = clamp01(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const sg = (t, a, b) => ez((t - a) / (b - a));
+const mixn = (a, b, u) => a + (b - a) * u;
+const FONTS = { mono: '"DM Mono", ui-monospace, Menlo, monospace', sans: '"Hanken Grotesk", system-ui, sans-serif', serif: '"Newsreader", Georgia, serif', math: '"STIX Two Text", "Times New Roman", serif' };
+function tx(g, s, x, y, o) { o = o || {}; const a = o.a == null ? 1 : o.a; if (a <= .001) return; g.save(); g.globalAlpha *= a; g.fillStyle = o.c || INK; g.font = `${o.it ? 'italic ' : ''}${o.w || 500} ${o.s || 14}px ${FONTS[o.f || 'sans']}`; g.textAlign = o.al || 'left'; g.textBaseline = 'alphabetic'; g.fillText(s, x, y); g.restore(); }
+function bx(g, x, y, w, h, o) { o = o || {}; const a = o.a == null ? 1 : o.a; if (a <= .001 || w <= 0 || h <= 0) return; g.save(); g.globalAlpha *= a; rr(g, x, y, w, h, Math.min(o.r == null ? 8 : o.r, w / 2, h / 2)); if (o.fill) { g.fillStyle = o.fill; g.fill(); } if (o.stroke) { g.strokeStyle = o.stroke; g.lineWidth = o.lw || 1.5; if (o.dash) g.setLineDash(o.dash); g.stroke(); } g.restore(); }
+function ar(g, x1, y1, x2, y2, p, o) { o = o || {}; if (p == null) p = 1; const a = o.a == null ? 1 : o.a; if (p <= .001 || a <= .001) return; const x = mixn(x1, x2, p), y = mixn(y1, y2, p); g.save(); g.globalAlpha *= a; g.strokeStyle = g.fillStyle = o.c || ink(.7); g.lineWidth = o.lw || 1.6; if (o.dash) g.setLineDash(o.dash); ln(g, x1, y1, x, y); g.setLineDash([]); if (!o.noHead) head(g, x, y, Math.atan2(y2 - y1, x2 - x1), o.hs || 8); g.restore(); }
+function cc(g, x, y, r, o) { o = o || {}; const a = o.a == null ? 1 : o.a; if (a <= .001) return; g.save(); g.globalAlpha *= a; if (o.fill) { g.fillStyle = o.fill; dot(g, x, y, r); } if (o.stroke) { g.strokeStyle = o.stroke; g.lineWidth = o.lw || 1.5; ring(g, x, y, r); } g.restore(); }
+function ga(g, a, fn) { if (a <= .001) return; g.save(); g.globalAlpha *= a; fn(); g.restore(); }
+function curveP(g, f, u0, u1, X, Y, p, o) { o = o || {}; const n = o.n || 140, m = Math.floor(n * clamp01(p)); if (m < 1) return; g.save(); g.globalAlpha *= (o.a == null ? 1 : o.a); g.beginPath(); for (let i = 0; i <= m; i++) { const u = u0 + (u1 - u0) * i / n, x = X(u), y = Y(f(u)); i ? g.lineTo(x, y) : g.moveTo(x, y); } g.strokeStyle = o.c || INK; g.lineWidth = o.lw || 2; if (o.dash) g.setLineDash(o.dash); g.stroke(); g.restore(); }
+function wrapT(g, s, x, y, maxW, lh, o, limit) {
+  o = o || {}; g.save(); g.font = `${o.it ? 'italic ' : ''}${o.w || 500} ${o.s || 14}px ${FONTS[o.f || 'sans']}`; g.fillStyle = o.c || INK; g.globalAlpha *= (o.a == null ? 1 : o.a);
+  const lim = limit == null ? Infinity : limit; let line = '', yy = y, shown = 0;
+  const out = l => { if (shown < lim) g.fillText(l.slice(0, Math.max(0, lim - shown)), x, yy); shown += l.length + 1; };
+  for (const w of s.split(' ')) { const test = line ? line + ' ' + w : w; if (g.measureText(test).width > maxW && line) { out(line); line = w; yy += lh; } else line = test; }
+  out(line); g.restore(); return yy - y + lh;
+}
+function catmull(P, s) { const m = P.length, seg = s * (m - 1), i = Math.min(Math.floor(seg), m - 2), u = seg - i, p0 = P[Math.max(i - 1, 0)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(i + 2, m - 1)];
+  return [0, 1, 2].map(d => .5 * (2 * p1[d] + (-p0[d] + p2[d]) * u + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * u * u + (-p0[d] + 3 * p1[d] - 3 * p2[d] + p3[d]) * u * u * u)); }
+function person(g, x, y, s, col, a) { ga(g, a == null ? 1 : a, () => { cc(g, x, y - s * .55, s * .3, { fill: col }); bx(g, x - s * .42, y - s * .15, s * .84, s * .7, { r: s * .32, fill: col }); }); }
+
+const LANIM = {
+  dbn(g, S) {
+    const { c, P, k, t, L } = S;
+    const sizes = [10, 8, 6, 4], ys = [380, 285, 190, 95], cx = 320, sp = 40;
+    const pos = sizes.map((n, i) => Array.from({ length: n }, (_, j) => [cx + (j - (n - 1) / 2) * sp, ys[i]]));
+    const vis = [P(0, 0, .8), P(0, .6, 1.8), P(1, .3, 1.5), P(1, 2.8, 4)];
+    const R2 = rng(11 + Math.floor(L * 2.5));
+    ga(g, vis[0], () => { tx(g, 'data', 20, 344, { f: 'mono', s: 11, c: ink(.55) }); for (let i = 0; i < 5; i++) for (let j = 0; j < 5; j++) { g.fillStyle = ink(.12 + .55 * R2()); g.fillRect(20 + j * 9, 354 + i * 9, 8, 8); } });
+    ar(g, 70, 376, 126, 380, vis[0], { c: ink(.5) });
+    const learning = l => (k === 0 && l === 0) || (k === 1 && ((l === 1 && t < 2.8) || (l === 2)));
+    for (let l = 0; l < 3; l++) {
+      const a = vis[l + 1]; if (a <= 0) continue;
+      let col = INK, al = .1;
+      if (k === 2) { const sweep = 380 - 285 * (.5 - .5 * Math.cos(L * 1.4)), my = (ys[l] + ys[l + 1]) / 2; col = c; al = .16 + .5 * Math.max(0, 1 - Math.abs(my - sweep) / 90); }
+      else if (learning(l)) { col = c; al = .42; }
+      g.save(); g.globalAlpha = a * al; g.strokeStyle = col; g.lineWidth = .9;
+      for (const p1 of pos[l]) for (const p2 of pos[l + 1]) ln(g, p1[0], p1[1], p2[0], p2[1]);
+      g.restore();
+      const my = (ys[l] + ys[l + 1]) / 2;
+      tx(g, 'RBM ' + (l + 1), 560, my + 4, { f: 'mono', s: 11, c: learning(l) || k === 2 ? c : ink(.55), a, al: 'right' });
+      if (k < 2 && !learning(l)) tx(g, 'frozen', 560, my + 18, { f: 'mono', s: 9.5, c: ink(.4), a, al: 'right' });
+    }
+    pos.forEach((row, i) => { const a = vis[i]; if (a <= 0) return; row.forEach(([x, y], j) => {
+      if (i === 0) cc(g, x, y, 6, { fill: ink(.85), a });
+      else { const act = .25 + .75 * (.5 + .5 * Math.sin(L * 3 + j * 1.7 + i)); cc(g, x, y, 7.5, { fill: PLATE, a }); cc(g, x, y, 7.5, { fill: rgba(c, act * .7), stroke: c, lw: 1.6, a }); } });
+      tx(g, ['v', 'h¹', 'h²', 'h³'][i], row[row.length - 1][0] + 20, ys[i] + 5, { f: 'math', s: 17, it: true, c: ink(.75), a }); });
+    if (k === 2) tx(g, 'fine-tune every weight together', 300, 40, { f: 'mono', s: 12, c, al: 'center', a: sg(t, 0, .8) });
+  },
+
+  imagenet(g, S) {
+    const { c, P, k, t } = S;
+    const N = [['entity', 300, 44, -1], ['animal', 180, 100, 0], ['artifact', 420, 100, 0], ['mammal', 110, 156, 1], ['bird', 250, 156, 1], ['vehicle', 380, 156, 2], ['instrument', 510, 156, 2], ['dog', 70, 214, 3], ['cat', 150, 214, 3], ['owl', 250, 214, 4], ['car', 345, 214, 5], ['boat', 415, 214, 5], ['piano', 510, 214, 6]];
+    const leaves = [7, 8, 9, 10, 11, 12];
+    N.forEach((n, i) => { const a = P(0, i * .22, i * .22 + .5);
+      if (n[3] >= 0) { const p = N[n[3]]; g.save(); g.globalAlpha = a; g.strokeStyle = ink(.3); g.lineWidth = 1.2; ln(g, p[1], p[2] + 11, n[1], n[2] - 11); g.restore(); }
+      const leaf = leaves.includes(i); g.save(); g.font = `500 12px ${FONTS.sans}`; const w = g.measureText(n[0]).width + 20; g.restore();
+      bx(g, n[1] - w / 2, n[2] - 11, w, 22, { r: 11, fill: leaf ? rgba(c, .22) : ink(.07), stroke: leaf ? c : ink(.35), lw: 1.2, a });
+      tx(g, n[0], n[1], n[2] + 4, { s: 12, al: 'center', a }); });
+    const fillA = P(1, 0, 3.5), R2 = rng(5);
+    leaves.forEach(li => { const n = N[li], cnt = Math.floor(fillA * 12); for (let m = 0; m < 12; m++) { const v = R2(), v2 = R2(); if (m >= cnt) continue; const col = m % 3, row = Math.floor(m / 3); g.fillStyle = v < .5 ? rgba(c, .35 + .5 * v2) : ink(.15 + .4 * v2); g.fillRect(n[1] - 22 + col * 15, 236 + row * 15, 13, 13); } });
+    if (k >= 1) { const a = P(1, 0, .5); tx(g, 'candidate images from search, in several languages', 300, 318, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a }); }
+    if (k === 2) {
+      const a = sg(t, 0, .8), y = 384, gx = 300;
+      ga(g, a, () => {
+        g.strokeStyle = ink(.2); g.lineWidth = 1; ln(g, 20, y + 20, 580, y + 20);
+        for (let i = 0; i < 11; i++) { const run = t * 55 + i * 58, x = (run % 638) - 30, R3 = rng(900 + i + Math.floor(run / 638) * 31), ok = R3() < .78, past = x > gx + 44;
+          if (x > gx - 44 && x < gx + 44) continue;
+          const yy = past && !ok ? y + Math.min(26, (x - gx - 44) * .4) : y;
+          g.fillStyle = past ? (ok ? rgba(c, .8) : ink(.15)) : ink(.35); g.fillRect(x - 11, yy - 11, 22, 22);
+          if (past) tx(g, ok ? '✓' : '✗', x, yy - 16, { s: 14, al: 'center', w: 700, c: ok ? GOOD : BAD }); }
+        bx(g, gx - 44, y - 34, 88, 64, { r: 10, fill: PLATE, stroke: ink(.5) }); person(g, gx - 16, y + 4, 22, ink(.7)); person(g, gx + 16, y + 4, 22, ink(.7));
+        tx(g, 'workers vote', gx, y + 44, { f: 'mono', s: 10, al: 'center', c: ink(.65) });
+      });
+    }
+  },
+
+  alexnet(g, S) {
+    const { c, P, k, t, L } = S;
+    const f0 = 1 - P(1, 0, .8);
+    const pix = (i, j) => (j + i * .6 > 7 ? .75 : .12) + .08 * Math.sin(i * 3 + j);
+    if (f0 > 0) ga(g, f0, () => {
+      const ox = 40, oy = 110, cs = 20, n = 10;
+      for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { g.fillStyle = ink(pix(i, j)); g.fillRect(ox + j * cs, oy + i * cs, cs - 1, cs - 1); }
+      tx(g, 'image', ox, oy - 12, { f: 'mono', s: 11, c: ink(.6) });
+      const done = k === 0 ? Math.min(64, Math.floor(t * 9)) : 64, idx = Math.min(63, done), ki = Math.floor(idx / 8), kj = idx % 8;
+      const fx = 360, fy = 130, fs = 20;
+      for (let m = 0; m < done; m++) { const i = Math.floor(m / 8), j = m % 8; let s = 0; for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) s += (b - 1) * pix(i + a, j + b); g.fillStyle = rgba(c, .1 + .85 * clamp01(Math.abs(s) * 1.4)); g.fillRect(fx + j * fs, fy + i * fs, fs - 1, fs - 1); }
+      g.strokeStyle = ink(.25); g.lineWidth = 1; g.strokeRect(fx, fy, 8 * fs, 8 * fs);
+      tx(g, 'feature map: an edge detector', fx, fy - 12, { f: 'mono', s: 11, c: ink(.6) });
+      if (k === 0 && done < 64) { g.strokeStyle = c; g.lineWidth = 2.5; g.strokeRect(ox + kj * cs - 1, oy + ki * cs - 1, 3 * cs + 1, 3 * cs + 1); g.strokeRect(fx + kj * fs - 1, fy + ki * fs - 1, fs + 1, fs + 1); ar(g, ox + kj * cs + 3 * cs + 4, oy + ki * cs + 30, fx + kj * fs - 4, fy + ki * fs + 10, 1, { c: rgba(c, .7), lw: 1.2, hs: 6 }); }
+      tx(g, '3×3 learned filter slides across', ox, oy + n * cs + 24, { f: 'mono', s: 11, c });
+    });
+    const a1 = P(1, .4, 1.4);
+    if (a1 <= 0) return;
+    const two = k === 2 ? sg(t, 0, 1) : 0, cy = 200;
+    const box = (x, yc, w, h, z, al) => { if (al <= 0) return; const dx = z * .6, dy = -z * .45, y = yc - h / 2 - dy / 2; g.save(); g.globalAlpha *= al; g.lineWidth = 1.2; g.strokeStyle = c; g.fillStyle = rgba(c, .16); poly(g, [[x, y], [x + dx, y + dy], [x + w + dx, y + dy], [x + w + dx, y + h + dy], [x + w, y + h], [x, y + h]]); g.closePath(); g.fill(); g.stroke(); g.beginPath(); g.moveTo(x, y); g.lineTo(x + w, y); g.lineTo(x + w, y + h); g.moveTo(x + w, y); g.lineTo(x + w + dx, y + dy); g.stroke(); g.restore(); };
+    const Ls = [[40, 150, 8, 110], [130, 96, 18, 74], [220, 64, 26, 52], [300, 44, 34, 40], [375, 44, 34, 40], [450, 36, 26, 32]];
+    Ls.forEach(([x, h, w, z], i) => { const ai = a1 * (k === 1 ? sg(t, .4 + i * .3, 1 + i * .3) : 1);
+      if (i === 0) { box(x, cy, w, h, z, ai); return; }
+      const sh = 1 - .3 * two, off = two * 64; box(x, cy - off, w, h * sh, z * sh, ai); if (two > 0) box(x, cy + off, w, h * sh, z * sh, ai * two); });
+    const R2 = rng(77 + Math.floor(L * 1.6));
+    for (let j = 0; j < 7; j++) { const on = k < 2 || R2() > .5; cc(g, 548, 122 + j * 26, 6, { fill: on ? c : PLATE, stroke: c, a: a1 * P(1, 2, 2.6), lw: 1.2 }); }
+    tx(g, 'conv layers', 300, 372, { f: 'mono', s: 11, c: ink(.6), a: a1, al: 'center' }); tx(g, 'dense', 548, 372, { f: 'mono', s: 11, c: ink(.6), a: a1, al: 'center' });
+    if (k === 2) { tx(g, 'GPU 1', 300, 78, { f: 'mono', s: 11, c, a: two, al: 'center' }); tx(g, 'GPU 2', 300, 346, { f: 'mono', s: 11, c, a: two, al: 'center' }); tx(g, 'dropout', 548, 104, { f: 'mono', s: 11, c: ink(.75), a: two, al: 'center' }); }
+    const ra = k === 1 ? sg(t, 1.8, 2.8) : 0;
+    if (ra > 0) ga(g, ra, () => { const ox = 70, oy = 420, s = 34; g.strokeStyle = ink(.35); g.lineWidth = 1; ln(g, ox - s, oy, ox + s, oy); ln(g, ox, oy + 6, ox, oy - s); g.strokeStyle = c; g.lineWidth = 2.2; poly(g, [[ox - s, oy], [ox, oy], [ox + s * .9, oy - s * .9]]); g.stroke(); tx(g, 'ReLU: f(x) = max(0, x)', ox + 50, oy - 14, { f: 'mono', s: 11, c: ink(.8) }); tx(g, 'trains several times faster than tanh', ox + 50, oy + 2, { f: 'mono', s: 10, c: ink(.55) }); });
+  },
+
+  word2vec(g, S) {
+    const { c, P, k, t } = S;
+    const words = ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog'];
+    const sa = k === 0 ? 1 : 1 - .7 * P(1, 0, .8), y0 = 70, xs = words.map((w, i) => 52 + i * 62);
+    const center = k === 0 ? 2 + Math.floor(t / 1.3) % 5 : 4;
+    ga(g, sa, () => {
+      words.forEach((w, i) => { const d = Math.abs(i - center), inWin = d <= 2, cen = i === center; bx(g, xs[i] - 27, y0 - 15, 54, 26, { r: 6, fill: cen ? rgba(c, .9) : inWin ? ink(.1) : null, stroke: cen ? c : inWin ? ink(.5) : ink(.15), lw: 1.2 }); tx(g, w, xs[i], y0 + 3, { s: 13, al: 'center', c: cen ? PLATE : INK, w: cen ? 700 : 500 }); });
+      for (let d = -2; d <= 2; d++) { if (!d) continue; const j = center + d; if (j < 0 || j >= words.length) continue; const x1 = xs[center], x2 = xs[j], h = 22 + Math.abs(d) * 12; g.strokeStyle = rgba(c, .8); g.lineWidth = 1.4; g.beginPath(); g.moveTo(x1, y0 + 12); g.bezierCurveTo(x1, y0 + 12 + h, x2, y0 + 12 + h, x2, y0 + 14); g.stroke(); g.fillStyle = rgba(c, .8); head(g, x2, y0 + 14, -Math.PI / 2, 6); }
+      tx(g, 'skip-gram: from each word, predict its neighbours', 300, 136, { f: 'mono', s: 11, al: 'center', c: ink(.6) });
+    });
+    const pa = P(1, 0, .6); if (pa <= 0) return;
+    const pts = { king: [330, 355], queen: [395, 275], man: [150, 335], woman: [215, 255], prince: [290, 410], boy: [95, 395], girl: [250, 318], paris: [455, 205], france: [535, 205], rome: [455, 262], italy: [535, 262], dog: [95, 205], cat: [150, 182], fox: [125, 238] };
+    const mv = P(1, .2, 3), R2 = rng(4), P2 = {};
+    Object.keys(pts).forEach(w => { const sx = 60 + R2() * 480, sy = 170 + R2() * 240; P2[w] = [mixn(sx, pts[w][0], mv), mixn(sy, pts[w][1], mv)]; });
+    const hl = ['king', 'queen', 'man', 'woman'], fa = k === 2 ? sg(t, 0, .8) : 0;
+    Object.keys(P2).forEach(w => { const [x, y] = P2[w], H = hl.includes(w), dim = H ? 1 : 1 - .55 * fa, left = w === 'paris' || w === 'rome'; cc(g, x, y, 4.5, { fill: H && k === 2 ? c : INK, a: pa * dim }); tx(g, w, left ? x - 9 : x + 9, y + 4, { s: 12.5, c: ink(.9), a: pa * dim, al: left ? 'right' : 'left' }); });
+    if (k === 1) tx(g, 'similar words end up close together', 300, 168, { f: 'mono', s: 11, al: 'center', c: ink(.65), a: sg(t, 2.5, 3.3) });
+    if (k === 2) {
+      const [mx, my] = P2.man, [wx, wy] = P2.woman, [kx, ky] = P2.king, [qx, qy] = P2.queen;
+      ar(g, mx, my, wx + 4, wy + 6, sg(t, .6, 1.6), { c, lw: 2.2 }); ar(g, kx, ky, qx + 4, qy + 6, sg(t, 1.4, 2.4), { c, lw: 2.2 });
+      ar(g, P2.france[0] - 6, P2.france[1], P2.paris[0] + 7, P2.paris[1], sg(t, 2, 3), { c: ink(.5), lw: 1.4 }); ar(g, P2.italy[0] - 6, P2.italy[1], P2.rome[0] + 7, P2.rome[1], sg(t, 2.2, 3.2), { c: ink(.5), lw: 1.4 });
+      const s1 = sg(t, 3, 3.6), s2 = sg(t, 3.6, 4.8); if (s1 > 0) cc(g, kx + (wx - mx) * s2, ky + (wy - my) * s2, 9, { stroke: INK, lw: 2, a: s1 });
+      tx(g, 'king − man + woman ≈ queen', 300, 166, { f: 'math', s: 21, it: true, al: 'center', a: sg(t, 4.6, 5.4) });
+    }
+  },
+
+  vae(g, S) {
+    const { c, P, k, t } = S;
+    const D3 = ['01110', '10001', '00001', '00110', '00001', '10001', '01110'], D8 = ['01110', '10001', '10001', '01110', '10001', '10001', '01110'], D1 = ['00100', '01100', '00100', '00100', '00100', '00100', '01110'];
+    const digit = (x, y, cs, w, a) => ga(g, a, () => { for (let i = 0; i < 7; i++) for (let j = 0; j < 5; j++) { const v = w[0] * +D3[i][j] + w[1] * +D8[i][j] + w[2] * +D1[i][j]; g.fillStyle = ink(.06 + .8 * v); g.fillRect(x + j * cs, y + i * cs, cs - 1, cs - 1); } });
+    const a0 = P(0, 0, .8);
+    digit(28, 150, 13, [1, 0, 0], a0); tx(g, 'x', 60, 140, { f: 'math', it: true, s: 18, al: 'center', a: a0 });
+    ga(g, P(0, .5, 1.3), () => { poly(g, [[104, 140], [184, 168], [184, 228], [104, 256]]); g.closePath(); g.fillStyle = ink(.06); g.fill(); g.strokeStyle = ink(.4); g.lineWidth = 1.2; g.stroke(); tx(g, 'encoder', 144, 202, { f: 'mono', s: 10.5, al: 'center', c: ink(.7) }); });
+    ga(g, P(0, 1.2, 2), () => { bx(g, 198, 166, 44, 22, { r: 5, fill: rgba(c, .3), stroke: c }); tx(g, 'μ', 220, 182, { f: 'math', it: true, s: 16, al: 'center' }); bx(g, 198, 206, 44, 22, { r: 5, fill: rgba(c, .3), stroke: c }); tx(g, 'σ', 220, 222, { f: 'math', it: true, s: 16, al: 'center' }); });
+    const mu = [410, 175], sig = [44, 32];
+    ga(g, P(0, 1.8, 2.6), () => { bx(g, 290, 60, 290, 250, { r: 14, fill: ink(.03), stroke: ink(.18) }); tx(g, 'latent space', 302, 80, { f: 'mono', s: 10.5, c: ink(.5) });
+      for (let r = 3; r >= 1; r--) { g.strokeStyle = rgba(c, .2 + (3 - r) * .2); g.lineWidth = 1.2; g.beginPath(); g.ellipse(mu[0], mu[1], sig[0] * r * .7, sig[1] * r * .7, 0, 0, TAU); g.stroke(); }
+      cc(g, mu[0], mu[1], 3.5, { fill: INK }); ar(g, 244, 192, mu[0] - 8, mu[1] + 2, 1, { c: ink(.35), lw: 1.2, dash: [3, 4] }); });
+    if (k >= 1) {
+      const a = P(1, 0, .8), j = Math.floor((k === 1 ? t : 6) / .7), R2 = rng(300 + j), e = [gauss(R2) * .8, gauss(R2) * .8], ex = 220, ey = 360;
+      ga(g, a, () => { cc(g, ex, ey, 36, { stroke: ink(.35), lw: 1.2 }); cc(g, ex, ey, 18, { stroke: ink(.2), lw: 1 }); cc(g, ex + e[0] * 18, ey + e[1] * 18, 5, { fill: INK }); tx(g, 'ε ~ N(0, I)', ex, ey + 58, { f: 'math', it: true, s: 15, al: 'center', c: ink(.85) }); });
+      if (k === 1) {
+        const zx = mu[0] + sig[0] * e[0], zy = mu[1] + sig[1] * e[1];
+        ga(g, a, () => { g.strokeStyle = ink(.5); g.setLineDash([3, 3]); g.lineWidth = 1.2; ln(g, mu[0], mu[1], zx, zy); g.setLineDash([]); cc(g, zx, zy, 6, { fill: c, stroke: INK, lw: 1.5 }); tx(g, 'z', zx + 10, zy - 6, { f: 'math', it: true, s: 16 }); tx(g, 'z = μ + σ ⊙ ε', 440, 352, { f: 'math', it: true, s: 19, al: 'center' }); });
+        const gp = sg(t, 2.2, 3.6); ar(g, 360, 300, 246, 200, gp, { c: GOOD, lw: 1.8, dash: [5, 4] }); tx(g, 'gradients reach μ and σ', 440, 384, { f: 'mono', s: 11, al: 'center', c: GOOD, a: gp });
+      }
+    }
+    if (k === 2) {
+      const a = sg(t, 0, .8), ang = (t * .18) % 1 * TAU, zx = mu[0] + Math.cos(ang) * 100, zy = mu[1] + Math.sin(ang) * 70;
+      ga(g, a, () => { g.strokeStyle = rgba(c, .5); g.setLineDash([4, 4]); g.lineWidth = 1.2; g.beginPath(); g.ellipse(mu[0], mu[1], 100, 70, 0, 0, TAU); g.stroke(); g.setLineDash([]); cc(g, zx, zy, 7, { fill: c, stroke: INK, lw: 1.6 });
+        const w3 = Math.max(0, Math.cos(ang)), w8 = Math.max(0, Math.sin(ang)), w1 = Math.max(0, -Math.cos(ang)) + .5 * Math.max(0, -Math.sin(ang)), s = w3 + w8 + w1 + 1e-6;
+        digit(470, 330, 11, [w3 / s, w8 / s, w1 / s], 1); tx(g, 'decoder output', 497, 428, { f: 'mono', s: 10, al: 'center', c: ink(.6) }); ar(g, zx, zy + 8, 490, 324, 1, { c: ink(.35), lw: 1.2, dash: [3, 4] });
+        tx(g, 'walking through latent space', 435, 300, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) }); });
+    }
+  },
+
+  gan(g, S) {
+    const { c, P, k, t, L } = S;
+    const x0 = 70, x1 = 560, base = 380, amp = 190;
+    const real = x => .9 * Math.exp(-((x - .33) ** 2) / .006) + .62 * Math.exp(-((x - .68) ** 2) / .01);
+    const m = k < 2 ? 0 : sg(t, .5, 5);
+    const gen = x => (1 - m) * .78 * Math.exp(-((x - .52) ** 2) / .03) + m * .95 * real(x);
+    const disc = x => .5 + .42 * Math.tanh((real(x) - gen(x)) * 3) * (1 - m * .9);
+    const X = u => x0 + (x1 - x0) * u, Y = v => base - v * amp;
+    g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, base, x1, base);
+    curveP(g, real, 0, 1, X, Y, P(0, 0, 1.2), { c: ink(.85), lw: 1.8 }); tx(g, 'real data', X(.33), Y(.95) - 10, { f: 'mono', s: 11, c: ink(.8), al: 'center', a: P(0, .8, 1.4) });
+    ga(g, P(0, .6, 1.4), () => { bx(g, 40, 40, 110, 56, { r: 10, fill: ink(.05), stroke: ink(.3) }); const R2 = rng(3 + Math.floor(L * 3)); for (let i = 0; i < 18; i++) cc(g, 52 + R2() * 86, 52 + R2() * 34, 2, { fill: ink(.6) }); tx(g, 'noise z', 95, 112, { f: 'mono', s: 10.5, al: 'center', c: ink(.6) });
+      ar(g, 152, 68, 200, 68, 1, { c: ink(.5) }); bx(g, 204, 46, 60, 44, { r: 10, fill: rgba(c, .25), stroke: c }); tx(g, 'G', 234, 76, { f: 'math', it: true, s: 22, al: 'center' }); ar(g, 250, 92, X(.5), Y(.8) - 16, P(0, 1.2, 2), { c: rgba(c, .7), dash: [4, 4] }); });
+    const ga1 = P(0, 1.6, 2.6);
+    if (ga1 > 0) { g.save(); g.globalAlpha = ga1; g.beginPath(); for (let i = 0; i <= 140; i++) { const u = i / 140; i ? g.lineTo(X(u), Y(gen(u))) : g.moveTo(X(u), Y(gen(u))); } g.lineTo(x1, base); g.lineTo(x0, base); g.closePath(); g.fillStyle = rgba(c, .16); g.fill(); g.restore();
+      curveP(g, gen, 0, 1, X, Y, 1, { c, lw: 2.4, a: ga1 }); tx(g, 'generated', X(.88), Y(.16), { f: 'mono', s: 11, c, a: ga1 * (1 - m), al: 'center' });
+      const R3 = rng(9); for (let i = 0; i < 40; i++) { const u = (1 - m) * (.52 + gauss(R3) * .12) + m * (R3() < .58 ? .33 + gauss(R3) * .05 : .68 + gauss(R3) * .065); cc(g, X(clamp01(u)), base + 12 + R3() * 10, 2.2, { fill: c, a: ga1 }); } }
+    const da = P(1, 0, 1.2);
+    if (da > 0) { curveP(g, disc, 0, 1, X, u => base - u * amp * .95, 1, { c: INK, lw: 1.4, dash: [6, 5], a: da }); ga(g, da, () => { bx(g, 470, 40, 90, 44, { r: 10, fill: rgba(GOOD, .12), stroke: GOOD }); tx(g, 'D', 515, 70, { f: 'math', it: true, s: 22, al: 'center' }); }); tx(g, 'dashed: D(x), probability that x is real', 560, 104, { f: 'mono', s: 10.5, al: 'right', c: ink(.75), a: da }); }
+    if (k === 2) tx(g, m > .92 ? 'fakes match the data: D = ½ everywhere' : 'G improves, D adapts…', 300, 150, { f: 'mono', s: 12.5, al: 'center', a: sg(t, .3, 1) });
+  },
+
+  dropout(g, S) {
+    const { c, P, k, t, L } = S;
+    const layers = [4, 6, 6, 6, 3], xs = [90, 200, 310, 420, 520];
+    const pos = layers.map((n, i) => Array.from({ length: n }, (_, j) => [xs[i], 210 + (j - (n - 1) / 2) * 52]));
+    const a0 = P(0, 0, 1), mi = Math.floor(t / .9), R2 = rng(41 + mi);
+    const drop = pos.map((row, i) => row.map(() => k === 1 && i > 0 && i < 4 ? R2() < .5 : false)), thin = k === 2;
+    for (let i = 0; i < 4; i++) for (let a = 0; a < pos[i].length; a++) for (let b = 0; b < pos[i + 1].length; b++) { if (drop[i][a] || drop[i + 1][b]) continue; g.save(); g.globalAlpha = a0; g.strokeStyle = rgba(c, thin ? .22 : .38); g.lineWidth = thin ? .6 : 1.1; ln(g, pos[i][a][0], pos[i][a][1], pos[i + 1][b][0], pos[i + 1][b][1]); g.restore(); }
+    if (k === 0) for (let s = 0; s < 7; s++) { const run = (L + s * .33) / 1.2, R3 = rng(s * 17 + Math.floor(run)), u = run % 1, li = Math.min(3, Math.floor(u * 4)), f = u * 4 - li, A_ = pos[li][Math.floor(R3() * pos[li].length)], B_ = pos[li + 1][Math.floor(R3() * pos[li + 1].length)]; cc(g, mixn(A_[0], B_[0], f), mixn(A_[1], B_[1], f), 3.5, { fill: INK, a: a0 }); }
+    pos.forEach((row, i) => row.forEach(([x, y], j) => { if (drop[i][j]) { g.save(); g.strokeStyle = ink(.4); g.setLineDash([3, 3]); g.lineWidth = 1.2; ring(g, x, y, 11); g.setLineDash([]); ln(g, x - 5, y - 5, x + 5, y + 5); ln(g, x + 5, y - 5, x - 5, y + 5); g.restore(); } else cc(g, x, y, 11, { fill: i === 0 || i === 4 ? INK : c, a: a0 }); }));
+    tx(g, 'input', xs[0], 46, { f: 'mono', s: 10.5, al: 'center', c: ink(.55), a: a0 }); tx(g, 'output', xs[4], 46, { f: 'mono', s: 10.5, al: 'center', c: ink(.55), a: a0 });
+    if (k === 0) tx(g, 'every unit, every training step', 300, 400, { f: 'mono', s: 12, al: 'center', c: ink(.7), a: sg(t, 1, 1.8) });
+    if (k === 1) { tx(g, `thinned network #${mi + 1}`, 300, 396, { f: 'mono', s: 12.5, al: 'center', c }); tx(g, 'each hidden unit kept with probability p = 0.5', 300, 418, { f: 'mono', s: 10.5, al: 'center', c: ink(.6) }); }
+    if (k === 2) { tx(g, 'test time: keep every unit, scale its weights by p', 300, 396, { f: 'mono', s: 12, al: 'center', c, a: sg(t, 0, .8) }); tx(g, '≈ averaging 2ⁿ thinned networks', 300, 418, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: sg(t, .8, 1.6) }); }
+  },
+
+  attention(g, S) {
+    const { c, P, k, t } = S;
+    const src = ['The', 'agreement', 'on', 'the', 'European', 'Economic', 'Area'], tgt = ["L'", 'accord', 'sur', 'la', 'zone', 'économique', 'européenne'], map = [0, 1, 2, 3, 6, 5, 4];
+    const n = 7, cs = 38, ox = 236, oy = 140, rowT = 1.05, row = Math.min(6, Math.floor(t / rowT));
+    src.forEach((w, j) => { const a = P(0, j * .25, j * .25 + .5); g.save(); g.globalAlpha = a; g.translate(ox + j * cs + cs / 2 - 2, oy - 10); g.rotate(-Math.PI / 4); tx(g, w, 0, 0, { s: 12.5 }); g.restore(); });
+    if (k === 0) { const ea = sg(t, 2, 3); ga(g, ea, () => { for (let j = 0; j < n; j++) { const x = ox + j * cs + 6; for (let q = 0; q < 3; q++) { g.fillStyle = rgba(c, .3 + .5 * ((j * 7 + q * 3) % 5) / 5); g.fillRect(x + q * 9, oy + 10, 7, 26); } } ar(g, ox, oy + 50, ox + n * cs, oy + 50, sg(t, 2.6, 3.6), { c: ink(.5) }); ar(g, ox + n * cs, oy + 62, ox, oy + 62, sg(t, 3, 4), { c: ink(.5) }); tx(g, 'one annotation vector per source word', ox + n * cs / 2, oy + 92, { f: 'mono', s: 11, al: 'center', c: ink(.7) }); tx(g, '(read forwards and backwards)', ox + n * cs / 2, oy + 110, { f: 'mono', s: 10.5, al: 'center', c: ink(.5) }); }); return; }
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const d = j - map[i], w = Math.exp(-(d * d) / .5); let show = 1; if (k === 1) show = i < row ? .45 : i === row ? sg(t - row * rowT, 0, .6) : 0;
+      g.fillStyle = w * show > .3 ? rgba(c, .05 + .9 * w * show) : ink(.04 + .25 * w * show); g.fillRect(ox + j * cs + 1, oy + i * cs + 1, cs - 2, cs - 2); }
+    g.strokeStyle = ink(.15); g.lineWidth = 1; g.strokeRect(ox, oy, n * cs, n * cs);
+    tgt.forEach((w, i) => { const a = k === 2 || i <= row ? 1 : 0; tx(g, w, ox - 10, oy + i * cs + cs / 2 + 4, { s: 12.5, al: 'right', a, c: k === 1 && i === row ? c : INK, w: k === 1 && i === row ? 700 : 500 }); });
+    if (k === 1) { g.strokeStyle = INK; g.lineWidth = 1.5; g.strokeRect(ox, oy + row * cs, n * cs, cs); tx(g, 'brighter = more weight on that source word', ox + n * cs / 2, oy + n * cs + 24, { f: 'mono', s: 10.5, al: 'center', c: ink(.6) }); }
+    if (k === 2) { const a = sg(t, 1, 2); g.save(); g.globalAlpha = a; g.strokeStyle = INK; g.lineWidth = 2; g.setLineDash([5, 4]); g.strokeRect(ox + 4 * cs - 3, oy + 4 * cs - 3, 3 * cs + 6, 3 * cs + 6); g.restore(); tx(g, 'word order reversed', ox + 5.5 * cs, oy + n * cs + 24, { f: 'mono', s: 11, al: 'center', a }); }
+  },
+
+  adam(g, S) {
+    const { c, P, k, t } = S;
+    const cx = 360, cy = 240, rot = -.42, A = 22, B = A / 3, cs = Math.cos(rot), sn = Math.sin(rot);
+    const Pt = (u, v) => [cx + u * cs - v * sn, cy + u * sn + v * cs];
+    for (let i = 1; i <= 13; i++) { g.strokeStyle = ink(.03 + .022 * (14 - i)); g.lineWidth = 1; g.beginPath(); g.ellipse(cx, cy, i * A, i * B, rot, 0, TAU); g.stroke(); }
+    g.strokeStyle = ink(.7); g.lineWidth = 1.4; ln(g, cx - 6, cy, cx + 6, cy); ln(g, cx, cy - 6, cx, cy + 6);
+    const sim = kind => { let u = -11 * A, v = 8.5 * B, mu = 0, mv = 0, su = 0, sv = 0, vu = 0, vv = 0; const out = [Pt(u, v)];
+      for (let i = 1; i <= 60; i++) { const gu = 2 * u / (A * A), gv = 2 * v / (B * B);
+        if (kind === 0) { const lr = .95 * B * B; u -= lr * gu; v -= lr * gv; }
+        else if (kind === 1) { const lr = .22 * B * B; vu = .8 * vu - lr * gu; vv = .8 * vv - lr * gv; u += vu; v += vv; }
+        else { mu = .9 * mu + .1 * gu; mv = .9 * mv + .1 * gv; su = .999 * su + .001 * gu * gu; sv = .999 * sv + .001 * gv * gv; const lr = .5 * A; u -= lr * (mu / (1 - .9 ** i)) / (Math.sqrt(su / (1 - .999 ** i)) + 1e-8); v -= lr * (mv / (1 - .9 ** i)) / (Math.sqrt(sv / (1 - .999 ** i)) + 1e-8); }
+        out.push(Pt(u, v)); }
+      return out; };
+    const paths = [sim(0), sim(1), sim(2)], cols = [ink(.85), rgba(c, .6), c], names = ['plain SGD', 'with momentum', 'Adam'];
+    paths.forEach((pth, q) => { const pr = P(q, .2, 4); if (pr <= 0) return; const m = Math.max(1, Math.floor(pr * (pth.length - 1))), dim = k > q ? .4 : 1;
+      g.save(); g.globalAlpha = dim; poly(g, pth.slice(0, m + 1)); g.strokeStyle = cols[q]; g.lineWidth = q === 2 ? 2.8 : 1.6; g.stroke(); if (q === 0) { g.fillStyle = cols[q]; pth.slice(0, m + 1).forEach(p => dot(g, p[0], p[1], 2)); } const e = pth[m]; cc(g, e[0], e[1], 4.5, { fill: cols[q] }); g.restore();
+      tx(g, names[q], 40, 56 + q * 22, { f: 'mono', s: 12, c: cols[q], a: Math.min(1, pr * 3) * dim }); });
+    cc(g, paths[0][0][0], paths[0][0][1], 6, { stroke: INK, lw: 1.6 }); tx(g, 'start', paths[0][0][0] - 10, paths[0][0][1] + 22, { f: 'mono', s: 10, c: ink(.6) }); tx(g, 'minimum', cx + 10, cy - 10, { f: 'mono', s: 10, c: ink(.6) });
+    if (k === 2) tx(g, 'big steps along the valley, small steps across it', 300, 420, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 3, 4) });
+  },
+
+  batchnorm(g, S) {
+    const { c, P, k, t } = S;
+    const x0 = 50, x1 = 550, base = 340, X = u => x0 + (x1 - x0) * u, amp = 150;
+    const curve = (mu, sd, col, lw, fill, a) => { if (a <= 0) return; g.save(); g.globalAlpha = a; g.beginPath(); for (let i = 0; i <= 160; i++) { const u = i / 160, y = base - amp * (.08 / sd) * .5 * Math.exp(-((u - mu) ** 2) / (2 * sd * sd)); i ? g.lineTo(X(u), y) : g.moveTo(X(u), y); } if (fill) { g.lineTo(x1, base); g.lineTo(x0, base); g.closePath(); g.fillStyle = fill; g.fill(); } else { g.strokeStyle = col; g.lineWidth = lw; g.stroke(); } g.restore(); };
+    g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, base, x1, base); ln(g, X(.5), base, X(.5), base + 7); tx(g, '0', X(.5), base + 21, { f: 'mono', s: 11, al: 'center', c: ink(.55) });
+    const drift = [[.42, .05], [.56, .07], [.7, .1]], labels = ['step 100', 'step 1,000', 'step 10,000'];
+    drift.forEach(([mu, sd], i) => { const a = P(0, i * 1.3, i * 1.3 + 1) * (k >= 1 ? .35 : 1); curve(mu, sd, ink(.4 + .25 * i), 1.6, null, a); tx(g, labels[i], X(mu), base - amp * (.08 / sd) * .5 - 10, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a }); });
+    if (k === 0) tx(g, 'the same layer’s inputs, later in training', 300, 60, { f: 'mono', s: 12, al: 'center', c: ink(.7), a: sg(t, .5, 1.3) });
+    if (k < 1) return;
+    const mv = P(1, 1.6, 3.6), [m0, s0] = drift[2], mu = mixn(m0, .5, mv), sd = mixn(s0, .08, mv);
+    let gm = 1, bt = 0; if (k === 2) { const w = sg(t, .5, 1.5); gm = 1 + .45 * Math.sin(t * 1.3) * w; bt = .1 * Math.sin(t * .9 + 1) * w; }
+    const fm = mu + bt, fs = sd * gm;
+    curve(fm, fs, null, 0, rgba(c, .14), 1); curve(fm, fs, c, 2.4, null, 1);
+    const ma = k === 1 ? P(1, 0, .8) * (1 - sg(t, 4.2, 5)) : 0;
+    ga(g, ma, () => { g.strokeStyle = INK; g.lineWidth = 1.2; g.setLineDash([4, 4]); ln(g, X(m0), base, X(m0), 120); g.setLineDash([]); tx(g, 'batch mean μ', X(m0) + 6, 132, { f: 'mono', s: 11 }); ar(g, X(m0), 160, X(m0 + s0), 160, 1, { c: INK, lw: 1.2, hs: 6 }); tx(g, 'σ', X(m0 + s0 / 2), 152, { f: 'math', it: true, s: 15, al: 'center' }); });
+    if (k === 1) tx(g, 'x̂ = (x − μ) / σ', 300, 60, { f: 'math', it: true, s: 22, al: 'center', a: sg(t, 1.4, 2.4) });
+    if (k === 2) { tx(g, 'y = γ x̂ + β', 300, 60, { f: 'math', it: true, s: 22, al: 'center' });
+      const sl = (y, name, val, lo, hi) => { g.strokeStyle = ink(.25); g.lineWidth = 3; g.lineCap = 'round'; ln(g, 200, y, 440, y); g.lineCap = 'butt'; cc(g, 200 + 240 * (val - lo) / (hi - lo), y, 7, { fill: c, stroke: INK, lw: 1.5 }); tx(g, name, 186, y + 5, { f: 'math', it: true, s: 16, al: 'right' }); tx(g, val.toFixed(2), 456, y + 4, { f: 'mono', s: 11, c: ink(.65) }); };
+      sl(390, 'γ', gm, .4, 1.6); sl(418, 'β', bt * 10, -1.5, 1.5); }
+  },
+
+  dqn(g, S) {
+    const { c, P, k, t, L } = S;
+    const frame = (x, y, w, h, s, a) => ga(g, a, () => { bx(g, x, y, w, h, { r: 4, fill: PLATE, stroke: ink(.4), lw: 1 }); for (let r = 0; r < 4; r++) for (let j = 0; j < 8; j++) { if ((r * 8 + j + s) % 7 === 0) continue; g.fillStyle = rgba(c, .9 - r * .15); g.fillRect(x + 6 + j * (w - 12) / 8, y + 8 + r * 8, (w - 12) / 8 - 2, 6); } g.fillStyle = INK; g.fillRect(x + w * (.3 + .1 * s), y + h * .55 + s * 4, 5, 5); g.fillRect(x + w * .35 + s * 4, y + h - 12, 26, 4); });
+    const a0 = P(0, 0, 1);
+    for (let i = 3; i >= 0; i--) frame(30 + i * 12, 70 + i * 12, 110, 120, i, a0);
+    tx(g, '4 frames, 84 × 84', 92, 240, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: a0 });
+    const a1 = P(0, .8, 1.8);
+    ar(g, 180, 140, 214, 140, a1, { c: ink(.5) });
+    [[220, 80, 16, 120], [254, 95, 14, 90], [284, 108, 12, 64]].forEach(([x, y, w, h], i) => bx(g, x, y, w, h, { r: 3, fill: rgba(c, .2), stroke: c, lw: 1.2, a: P(0, 1 + i * .3, 1.6 + i * .3) }));
+    tx(g, 'conv net', 262, 240, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: a1 });
+    const acts = ['NOOP', 'FIRE', 'LEFT', 'RIGHT'], qa = P(1, 0, 1);
+    if (qa > 0) { ar(g, 302, 140, 336, 140, qa, { c: ink(.5) });
+      const vals = acts.map((_, i) => .35 + .28 * Math.sin(L * .9 + i * 1.9) + (i === 3 ? .15 : 0)), best = vals.indexOf(Math.max(...vals));
+      acts.forEach((nm, i) => { const y = 80 + i * 36, w = 120 * clamp01(vals[i]) * qa; bx(g, 400, y, Math.max(2, w), 24, { r: 4, fill: i === best ? c : ink(.22) }); tx(g, nm, 392, y + 16, { f: 'mono', s: 11, al: 'right', c: i === best ? INK : ink(.6) }); tx(g, 'Q ' + (vals[i] * 10).toFixed(1), 406 + Math.max(2, w), y + 16, { f: 'mono', s: 10, c: ink(.6) }); });
+      tx(g, 'act: the action with the highest Q', 470, 240, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: qa }); }
+    if (k === 2) {
+      const a = sg(t, 0, .8), mx = 40, my = 296, cw = 38, ch = 26;
+      ga(g, a, () => { tx(g, 'replay memory', mx, my - 10, { f: 'mono', s: 10.5, c: ink(.65) });
+        const R2 = rng(70 + Math.floor(t / .8)), picked = new Set(); while (picked.size < 4) picked.add(Math.floor(R2() * 24));
+        for (let i = 0; i < 24; i++) { const x = mx + (i % 8) * (cw + 4), y = my + Math.floor(i / 8) * (ch + 4); bx(g, x, y, cw, ch, { r: 4, fill: picked.has(i) ? rgba(c, .65) : ink(.06), stroke: picked.has(i) ? c : ink(.2), lw: 1 }); }
+        ar(g, 200, my - 18, 252, 206, 1, { c: rgba(c, .75), dash: [4, 4] }); tx(g, 'random minibatch', 212, my - 22, { f: 'mono', s: 10, c });
+        const fl = (t % 3) < .3 ? 1 : 0; bx(g, 440, 300, 130, 64, { r: 10, fill: ink(.06 + .25 * fl), stroke: ink(.5) }); tx(g, 'target network θ⁻', 505, 326, { f: 'mono', s: 10.5, al: 'center' }); tx(g, 'an older, frozen copy', 505, 346, { f: 'mono', s: 9.5, al: 'center', c: ink(.55) }); ar(g, 440, 316, 318, 200, 1, { c: ink(.4), dash: [3, 4], hs: 6 }); });
+    }
+  },
+
+  unet(g, S) {
+    const { c, P, k } = S;
+    const pos = [];
+    for (let i = 0; i < 4; i++) { const h = 64 - i * 10, w = 9 + i * 5, y = 70 + i * 78, xl = 100 + i * 46; pos.push({ xl, xr: 600 - xl - 2 * w - 4, y, h, w }); }
+    const bw = 26, bh = 34, bx0 = 300 - bw - 2, by = 380;
+    const blk = (x, y, w, h, a) => bx(g, x, y, w, h, { r: 2, fill: rgba(c, .3), stroke: c, lw: 1.2, a });
+    pos.forEach((p, i) => { const a = P(0, i * .7, i * .7 + .6); blk(p.xl, p.y, p.w, p.h, a); blk(p.xl + p.w + 3, p.y, p.w, p.h, a);
+      const q = pos[i + 1], xa = p.xl + p.w, ya = p.y + p.h + 4, xb = q ? q.xl + q.w : bx0 + bw, yb = (q ? q.y : by) - 4; ar(g, xa, ya, xb, yb, P(0, i * .7 + .4, i * .7 + 1), { c: BAD, lw: 1.6, hs: 6 }); });
+    const ba = P(0, 2.8, 3.4); blk(bx0, by, bw, bh, ba); blk(bx0 + bw + 4, by, bw, bh, ba);
+    tx(g, 'down: resolution ½, channels ×2', 40, 34, { f: 'mono', s: 10.5, c: ink(.65), a: P(0, .5, 1.2) });
+    for (let i = 3; i >= 0; i--) { const p = pos[i], ord = 3 - i, a = P(1, ord * .7, ord * .7 + .6); blk(p.xr, p.y, p.w, p.h, a); blk(p.xr + p.w + 3, p.y, p.w, p.h, a);
+      const q = pos[i + 1], xc = q ? q.xr + q.w : bx0 + bw * 2 + 4, yc = (q ? q.y : by) - 4, xd = p.xr + p.w, yd = p.y + p.h + 4; ar(g, xc, yc, xd, yd, a, { c: GOOD, lw: 1.6, hs: 6 }); }
+    tx(g, 'up: back to full resolution', 560, 34, { f: 'mono', s: 10.5, al: 'right', c: ink(.65), a: P(1, .5, 1.2) });
+    pos.forEach((p, i) => { const a = P(2, i * .5, i * .5 + .8), x1 = p.xl + 2 * p.w + 8, x2 = p.xr - 8, y = p.y + p.h / 2; ga(g, a, () => { g.strokeStyle = ink(.65); g.setLineDash([5, 5]); g.lineWidth = 1.5; ln(g, x1, y, x2 - 6, y); g.setLineDash([]); g.fillStyle = ink(.65); head(g, x2, y, 0, 7); }); });
+    tx(g, 'copy and concatenate', 300, pos[0].y + pos[0].h / 2 - 9, { f: 'mono', s: 10.5, al: 'center', c: ink(.8), a: P(2, 0, .8) });
+    const s = 70, iy = 66, R2 = rng(12), cells = []; for (let i = 0; i < 6; i++) cells.push([.2 + R2() * .6, .2 + R2() * .6, .1 + R2() * .08]);
+    const draw = (x, mask, a) => ga(g, a, () => { bx(g, x, iy, s, s, { r: 4, fill: mask ? PLATE : ink(.08), stroke: ink(.35), lw: 1 }); g.save(); g.beginPath(); g.rect(x, iy, s, s); g.clip(); cells.forEach(([u, v, r]) => { g.beginPath(); g.ellipse(x + u * s, iy + v * s, r * s, r * s * .8, u * 3, 0, TAU); g.fillStyle = mask ? rgba(c, .85) : ink(.3); g.fill(); }); g.restore(); });
+    draw(14, false, P(0, 0, .6)); draw(516, true, P(2, 1.6, 2.6));
+    tx(g, 'image', 49, 154, { f: 'mono', s: 10, al: 'center', c: ink(.55), a: P(0, 0, .6) }); tx(g, 'mask', 551, 154, { f: 'mono', s: 10, al: 'center', c: ink(.55), a: P(2, 1.6, 2.6) });
+  },
+
+  resnet(g, S) {
+    const { c, k, t } = S;
+    const plot = (a, curves, title) => ga(g, a, () => { const x0 = 70, x1 = 540, y0 = 380, y1 = 100; g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0, x1, y0); ln(g, x0, y0, x0, y1); tx(g, 'training iterations →', x1, y0 + 22, { f: 'mono', s: 10.5, al: 'right', c: ink(.6) }); tx(g, 'training error', x0, y1 - 12, { f: 'mono', s: 10.5, c: ink(.6) }); tx(g, title, 300, 52, { f: 'mono', s: 12.5, al: 'center', c: ink(.85) }); tx(g, 'schematic', x1, y1 - 12, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) });
+      curves.forEach(([fn, col, lab, pr]) => { curveP(g, fn, 0, 1, u => x0 + (x1 - x0) * u, v => y0 - (y0 - y1) * v, pr, { c: col, lw: 2.4 }); if (pr > .95) tx(g, lab, x1 - 4, y0 - (y0 - y1) * fn(1) - 9, { f: 'mono', s: 11, al: 'right', c: col }); }); });
+    const e = (end, sp) => u => end + (.9 - end) * Math.exp(-u * sp) + .015 * Math.sin(u * 40) * (1 - u);
+    if (k === 0) plot(sg(t, 0, .6), [[e(.22, 4), ink(.8), '20-layer', sg(t, .5, 3.5)], [e(.34, 3.2), c, '56-layer', sg(t, .8, 3.8)]], 'plain networks: the deeper one trains worse');
+    if (k === 1) {
+      const a = sg(t, 0, .8), cx = 260;
+      ga(g, a, () => {
+        ar(g, cx, 66, cx, 108, 1, { c: ink(.6) }); tx(g, 'x', cx - 12, 62, { f: 'math', it: true, s: 18, al: 'right' });
+        [[130, 'weight layer'], [190, 'ReLU'], [250, 'weight layer']].forEach(([y, l]) => { bx(g, cx - 70, y - 18, 140, 36, { r: 8, fill: rgba(c, .18), stroke: c }); tx(g, l, cx, y + 5, { f: 'mono', s: 11.5, al: 'center' }); });
+        ar(g, cx, 148, cx, 172, 1, { c: ink(.5), hs: 6 }); ar(g, cx, 208, cx, 232, 1, { c: ink(.5), hs: 6 }); ar(g, cx, 268, cx, 306, 1, { c: ink(.5), hs: 6 });
+        cc(g, cx, 320, 13, { fill: PLATE, stroke: INK, lw: 1.6 }); g.strokeStyle = INK; g.lineWidth = 1.6; ln(g, cx - 6, 320, cx + 6, 320); ln(g, cx, 314, cx, 326);
+        ar(g, cx, 334, cx, 384, 1, { c: ink(.6) }); tx(g, 'F(x) + x', cx + 14, 374, { f: 'math', it: true, s: 17 }); tx(g, 'F(x)', cx - 84, 196, { f: 'math', it: true, s: 17, al: 'right', c });
+        const sp = sg(t, .6, 1.6); g.save(); g.globalAlpha = sp; g.strokeStyle = GOOD; g.lineWidth = 2.4; g.beginPath(); g.moveTo(cx, 88); g.bezierCurveTo(cx + 200, 88, cx + 200, 320, cx + 14, 320); g.stroke(); g.restore(); tx(g, 'identity shortcut', cx + 168, 206, { f: 'mono', s: 11, c: GOOD, a: sg(t, 1.2, 2) });
+        const u = (t * .45) % 1; cc(g, cx, 70 + 250 * u, 5, { fill: c }); if (sp > .9) { const p2 = bez([cx, 88], [cx + 200, 88], [cx + 200, 320], [cx + 14, 320], u); cc(g, p2[0], p2[1], 5, { fill: GOOD }); }
+        tx(g, 'doing nothing is easy: F(x) = 0', 470, 420, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: sg(t, 2.6, 3.4) });
+      });
+    }
+    if (k === 2) { plot(sg(t, 0, .6), [[e(.24, 4), ink(.8), 'ResNet-20', sg(t, .5, 3.5)], [e(.12, 3.6), c, 'ResNet-56', sg(t, .8, 3.8)]], 'with shortcuts: the deeper one trains better'); tx(g, 'and 152 layers on ImageNet', 300, 74, { f: 'mono', s: 11, al: 'center', c, a: sg(t, 3.5, 4.5) }); }
+  },
+
+  alphago(g, S) {
+    const { c, P, k, t, L } = S;
+    const n = 9, ox = 40, oy = 70, sz = 300, cs = sz / (n - 1);
+    const a0 = P(0, 0, .8);
+    ga(g, a0, () => { bx(g, ox - 16, oy - 16, sz + 32, sz + 32, { r: 8, fill: ink(.04), stroke: ink(.15) }); g.strokeStyle = ink(.3); g.lineWidth = 1; for (let i = 0; i < n; i++) { ln(g, ox, oy + i * cs, ox + sz, oy + i * cs); ln(g, ox + i * cs, oy, ox + i * cs, oy + sz); } });
+    [[2, 2, 0], [3, 2, 1], [2, 3, 1], [6, 2, 0], [6, 3, 0], [5, 3, 1], [3, 5, 0], [4, 5, 1], [5, 6, 0], [2, 6, 1], [6, 6, 1], [4, 3, 0]].forEach(([i, j, col], q) => { const a = P(0, .3 + q * .08, .5 + q * .08), x = ox + i * cs, y = oy + j * cs; if (col === 0) cc(g, x, y, cs * .42, { fill: '#05070A', stroke: ink(.5), lw: 1, a }); else cc(g, x, y, cs * .42, { fill: INK, a }); });
+    const pa = P(0, 1.6, 2.8);
+    [[4, 4, .55], [3, 4, .2], [5, 4, .12], [5, 2, .08], [3, 6, .05]].forEach(([i, j, p], q) => { const x = ox + i * cs, y = oy + j * cs; cc(g, x, y, cs * .42 * Math.sqrt(p / .55), { fill: rgba(c, .25 + .7 * p / .55), a: pa }); if (q < 3) tx(g, Math.round(p * 100) + '%', x, y + 4, { f: 'mono', s: 10, al: 'center', c: q === 0 ? PLATE : INK, a: pa }); });
+    tx(g, 'policy network: where to play next (illustrative)', ox + sz / 2, oy + sz + 36, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: pa });
+    if (k >= 1) { const a = P(1, 0, .8), gx = 480, gy = 150, r = 70, v = mixn(.5, .62, P(1, .6, 2.2)) + (k === 1 ? .01 * Math.sin(L * 3) : 0);
+      ga(g, a, () => { g.lineCap = 'round'; g.strokeStyle = ink(.15); g.lineWidth = 12; g.beginPath(); g.arc(gx, gy, r, Math.PI, TAU); g.stroke(); g.strokeStyle = c; g.beginPath(); g.arc(gx, gy, r, Math.PI, Math.PI + Math.PI * v); g.stroke(); g.lineCap = 'butt';
+        const an = Math.PI + Math.PI * v; g.strokeStyle = INK; g.lineWidth = 2; ln(g, gx, gy, gx + Math.cos(an) * (r - 18), gy + Math.sin(an) * (r - 18)); cc(g, gx, gy, 5, { fill: INK });
+        tx(g, Math.round(v * 100) + '% chance black wins', gx, gy + 28, { f: 'mono', s: 11.5, al: 'center' }); tx(g, 'value network', gx, gy - r - 16, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) }); ar(g, 352, 150, 398, 150, 1, { c: ink(.4) }); }); }
+    if (k === 2) { const a = sg(t, 0, .8), rx = 480, ry = 236;
+      ga(g, a, () => { tx(g, 'tree search', rx, ry, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) });
+        const ch = [[405, 300], [480, 300], [555, 300]], gc = [[385, 372], [425, 372], [460, 372], [500, 372], [535, 372], [575, 372]], visits = [Math.floor(12 + t * 30), Math.floor(3 + t * 8), Math.floor(2 + t * 4)];
+        cc(g, rx, ry + 18, 8, { fill: INK });
+        ch.forEach(([x, y], i) => { g.strokeStyle = i === 0 ? c : ink(.35); g.lineWidth = 1 + 4 * visits[i] / visits[0]; ln(g, rx, ry + 26, x, y - 9); cc(g, x, y, 8, { fill: i === 0 ? c : ink(.5) }); tx(g, 'N ' + visits[i], x, y + 24, { f: 'mono', s: 9.5, al: 'center', c: ink(.65) });
+          gc.slice(i * 2, i * 2 + 2).forEach(([gx2, gy2], j) => { const vis = sg(t, .5 + i * .3 + j * .2, 1 + i * .3 + j * .2); ga(g, vis, () => { g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x, y + 30, gx2, gy2 - 7); cc(g, gx2, gy2, 6, { fill: ink(.4) }); }); }); });
+        if (t > 3) cc(g, ox + 4 * cs, oy + 4 * cs, cs * .42, { fill: '#05070A', stroke: c, lw: 3 });
+        tx(g, 'most-visited move is played', rx, 420, { f: 'mono', s: 10.5, al: 'center', c, a: sg(t, 3, 3.8) }); }); }
+  },
+
+  moe(g, S) {
+    const { c, P, k, t } = S;
+    const n = 8, ew = 54, ex0 = 300 - (n * ew + (n - 1) * 10) / 2, ey = 70, eh = 56, gx = 300, gy = 250, ePos = i => [ex0 + i * (ew + 10), ey];
+    const ti = k === 1 ? Math.floor(t / 1.15) : -1, toks = ['the', 'cat', 'sat', 'on', 'the', 'mat'];
+    const R2 = rng(500 + Math.max(0, ti) * 7), sc = Array.from({ length: n }, () => R2()), order = sc.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]);
+    const top = k === 1 ? [order[0][1], order[1][1]] : [], wsum = order[0][0] + order[1][0], wts = [order[0][0] / wsum, order[1][0] / wsum];
+    const dimE = k === 2 ? .25 : 1;
+    for (let i = 0; i < n; i++) { const [x, y] = ePos(i), on = top.includes(i), ea = P(0, i * .1, i * .1 + .6) * dimE; bx(g, x, y, ew, eh, { r: 8, fill: on ? rgba(c, .9) : ink(.05), stroke: on ? c : ink(.3), a: ea }); tx(g, 'E' + (i + 1), x + ew / 2, y + eh / 2 + 5, { f: 'mono', s: 12, al: 'center', c: on ? PLATE : ink(.75), w: on ? 700 : 500, a: ea }); }
+    if (k < 2) ga(g, P(0, .8, 1.6), () => { bx(g, gx - 62, gy - 22, 124, 44, { r: 10, fill: ink(.1), stroke: ink(.6) }); tx(g, 'gate G(x)', gx, gy + 5, { f: 'mono', s: 12, al: 'center' }); });
+    if (k === 0) tx(g, 'many expert networks and one small router', 300, 400, { f: 'mono', s: 11.5, al: 'center', c: ink(.65), a: P(0, 1.5, 2.3) });
+    if (k === 1) {
+      const lt = t - ti * 1.15, up = sg(lt, 0, .45), route = sg(lt, .45, .8), cur = ti % toks.length;
+      toks.forEach((w, i) => { const x = 140 + i * 64, isCur = i === cur, y = isCur ? mixn(392, gy + 42, up) : 392, done = i < cur; bx(g, x - 24, y - 14, 48, 26, { r: 6, fill: isCur ? INK : ink(.08), stroke: ink(.4), a: done ? .35 : 1 }); tx(g, w, x, y + 4, { s: 12, al: 'center', c: isCur ? PLATE : INK, a: done ? .35 : 1 }); });
+      top.forEach((ei, q) => { const [x, y] = ePos(ei); ga(g, route, () => { g.strokeStyle = c; g.lineWidth = 1 + 3.5 * wts[q]; g.beginPath(); g.moveTo(gx, gy - 22); g.bezierCurveTo(gx, gy - 90, x + ew / 2, y + eh + 60, x + ew / 2, y + eh); g.stroke(); }); tx(g, wts[q].toFixed(2), x + ew / 2, y + eh + 18, { f: 'mono', s: 11, al: 'center', c, a: route }); });
+      tx(g, 'only the top-2 experts run; their outputs are mixed by the gate weights', 300, 432, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) });
+    }
+    if (k === 2) {
+      const a = sg(t, 0, .8), cats = [4, 32, 256, 2048], x0 = 110, bw = 34, base = 390, top_ = 170;
+      ga(g, a, () => { tx(g, 'number of experts →', 300, base + 40, { f: 'mono', s: 10.5, al: 'center', c: ink(.6) });
+        cats.forEach((nE, i) => { const x = x0 + i * 110, grow = sg(t, .4 + i * .5, 1.2 + i * .5), hp = Math.max(4, (Math.log2(nE) / 11) * (base - top_)) * grow, hc = 36 * grow;
+          bx(g, x, base - hp, bw, hp, { r: 4, fill: c }); bx(g, x + bw + 6, base - hc, bw, hc, { r: 4, fill: ink(.5) }); tx(g, String(nE), x + bw + 3, base + 18, { f: 'mono', s: 11, al: 'center', c: ink(.75) }); });
+        bx(g, 110, 150, 12, 12, { r: 2, fill: c }); tx(g, 'parameters (log scale)', 128, 161, { f: 'mono', s: 10.5, c: ink(.8) }); bx(g, 110, 172, 12, 12, { r: 2, fill: ink(.5) }); tx(g, 'compute per token', 128, 183, { f: 'mono', s: 10.5, c: ink(.8) }); tx(g, 'schematic', 560, 150, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) }); });
+    }
+  },
+
+  transformer(g, S) {
+    const { c, P, k, t } = S;
+    const toks = ['The', 'animal', "didn't", 'cross', 'the', 'street', 'because', 'it', 'was', 'tired'], n = toks.length, y = 384, xs = toks.map((_, i) => 40 + i * 58);
+    const att = [.04, .46, .03, .04, .03, .14, .05, .12, .04, .05];
+    const tokA = k === 2 ? .6 : 1;
+    toks.forEach((w, i) => { const it = i === 7, a = P(0, i * .08, i * .08 + .4) * tokA; bx(g, xs[i] - 27, y - 14, 54, 26, { r: 6, fill: it ? rgba(c, .9) : ink(.08), stroke: it ? c : ink(.35), lw: 1.1, a }); tx(g, w, xs[i], y + 4, { s: 11.5, al: 'center', c: it ? PLATE : INK, w: it ? 700 : 500, a }); });
+    const arcA = k === 0 ? sg(t, 1, 2.2) : k === 1 ? 1 - sg(t, 0, .6) : 0;
+    if (arcA > 0) { for (let j = 0; j < n; j++) { if (j === 7) continue; const x1 = xs[7], x2 = xs[j], h = Math.abs(x2 - x1) * .6 + 24; ga(g, arcA, () => { g.strokeStyle = rgba(c, .25 + .75 * att[j] / .46); g.lineWidth = 1 + 10 * att[j]; g.beginPath(); g.moveTo(x1, y - 16); g.bezierCurveTo(x1, y - 16 - h, x2, y - 16 - h, x2, y - 16); g.stroke(); }); }
+      tx(g, '“it” attends most strongly to “animal”', 300, 60, { f: 'mono', s: 12.5, al: 'center', a: arcA * sg(t, 2.2, 3) }); }
+    if (k === 1) {
+      const a = sg(t, .4, 1.2), vec = (x, yy, col, al, seed) => { const R2 = rng(seed); for (let q = 0; q < 4; q++) { g.save(); g.fillStyle = col; g.globalAlpha = al * (.35 + .65 * R2()); g.fillRect(x - 12 + q * 6, yy, 5, 14); g.restore(); } };
+      vec(xs[7], y - 42, c, a, 1); tx(g, 'query', xs[7] + 16, y - 30, { f: 'mono', s: 10, c, a });
+      xs.forEach((x, j) => vec(x, y - 66, INK, a * .8, 10 + j)); tx(g, 'keys', xs[0] - 8, y - 74, { f: 'mono', s: 10, a, c: ink(.7) });
+      const sb = sg(t, 1.6, 3), base = 280;
+      xs.forEach((x, j) => { const h = 110 * att[j] / .46 * sb; bx(g, x - 14, base - h, 28, Math.max(1, h), { r: 3, fill: j === 1 ? c : ink(.35), a }); tx(g, att[j].toFixed(2), x, base - h - 6, { f: 'mono', s: 9.5, al: 'center', c: ink(.7), a: sb }); });
+      tx(g, 'softmax( q · k / √d )', 300, 140, { f: 'math', it: true, s: 19, al: 'center', a: sg(t, 1.2, 2) });
+      ga(g, sg(t, 3.4, 4.4), () => { bx(g, 230, 48, 140, 36, { r: 8, fill: rgba(c, .25), stroke: c }); tx(g, 'new vector for “it”', 300, 71, { f: 'mono', s: 11, al: 'center' }); tx(g, '= Σ weight × value', 300, 106, { f: 'math', it: true, s: 15, al: 'center', c: ink(.75) }); });
+    }
+    if (k === 2) {
+      const a = sg(t, 0, .8), pats = [(i, j) => Math.exp(-((i - j) ** 2) / 1.2), (i, j) => j === Math.max(0, i - 1) ? 1 : .05, (i, j) => (j === 1 && i >= 6) || i === j ? 1 : .05];
+      ga(g, a, () => { pats.forEach((f, h) => { const ox = 70 + h * 170, oy = 50, cs = 12; for (let i = 0; i < 10; i++) for (let j = 0; j < 10; j++) { const v = f(i, j); g.fillStyle = v > .3 ? rgba(c, .2 + .8 * v) : ink(.05); g.fillRect(ox + j * cs, oy + i * cs, cs - 1, cs - 1); } tx(g, ['head 1: nearby words', 'head 2: previous word', 'head 3: “it” → “animal”'][h], ox + 60, oy + 138, { f: 'mono', s: 10, al: 'center', c: ink(.7) }); });
+        const tr = sg(t, 2.5, 3); tx(g, 'Transformer: every position at once', 20, 236, { f: 'mono', s: 10.5, c, a: tr }); tx(g, 'RNN: one step at a time', 20, 290, { f: 'mono', s: 10.5, c: ink(.65), a: tr });
+        for (let i = 0; i < n; i++) { cc(g, xs[i], 254, 5, { fill: c, a: tr }); cc(g, xs[i], 308, 5, { fill: ink(.65), a: clamp01((t - 2.7) * 2.2 - i) }); } });
+    }
+  },
+
+  rlhf(g, S) {
+    const { c, P, k, t, L } = S;
+    const clip = (px, py, pw, ph, seed, pref, a, prog) => ga(g, a, () => { bx(g, px, py, pw, ph, { r: 10, fill: pref ? rgba(c, .1) : ink(.03), stroke: pref ? c : ink(.3), lw: pref ? 2 : 1.2 }); const R2 = rng(seed), a1 = R2() * 2 + 1, p1 = R2() * TAU, pts = []; for (let i = 0; i <= 40; i++) { const u = i / 40; pts.push([px + 14 + u * (pw - 28), py + ph * .62 + Math.sin(u * a1 * Math.PI + p1) * ph * .16 - (seed === 1 ? u * ph * .3 : 0)]); } const m = Math.floor(prog * 40); poly(g, pts.slice(0, m + 1)); g.strokeStyle = pref ? c : ink(.6); g.lineWidth = 2; g.stroke(); cc(g, pts[m][0], pts[m][1], 4, { fill: INK }); });
+    const prog = (L * .3) % 1, a0 = k === 2 ? .3 : 1, chosen = k > 0 || t > 2.2;
+    clip(40, 50, 220, 130, 1, chosen, P(0, 0, .8) * a0, prog); clip(340, 50, 220, 130, 2, false, P(0, 0, .8) * a0, prog);
+    tx(g, 'clip A', 52, 72, { f: 'mono', s: 10.5, c: ink(.6), a: a0 }); tx(g, 'clip B', 352, 72, { f: 'mono', s: 10.5, c: ink(.6), a: a0 });
+    const pa = P(0, .8, 1.6) * a0;
+    person(g, 300, 226, 40, ink(.85), pa); tx(g, 'A ≻ B', 300, 292, { f: 'math', it: true, s: 20, al: 'center', c, a: P(0, 2, 2.6) * a0 }); ar(g, 276, 206, 214, 186, P(0, 2, 2.6), { c, lw: 2, a: a0 });
+    if (k >= 1) { const a = P(1, 0, .8) * (k === 2 ? .55 : 1);
+      ga(g, a, () => { bx(g, 230, 318, 140, 44, { r: 10, fill: rgba(c, .2), stroke: c }); tx(g, 'reward model r̂', 300, 345, { f: 'mono', s: 12, al: 'center' });
+        for (let i = 0; i < 6; i++) { const u = sg(((k === 1 ? t : 9) + i * .4) % 2.4, 0, 1), sx = 70 + i * 22; cc(g, mixn(sx, 230, u), mixn(318, 336, u), 3.2, { fill: INK, a: 1 - u }); }
+        tx(g, 'many comparisons', 58, 304, { f: 'mono', s: 10, c: ink(.6) }); });
+      if (k === 1) tx(g, 'learns to predict which clip a person will prefer', 300, 400, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 1.5, 2.3) }); }
+    if (k === 2) { const a = sg(t, 0, .8);
+      ga(g, a, () => { bx(g, 50, 318, 110, 44, { r: 10, fill: ink(.08), stroke: ink(.6) }); tx(g, 'agent', 105, 345, { f: 'mono', s: 12, al: 'center' });
+        ar(g, 162, 332, 226, 332, 1, { c: ink(.55) }); ar(g, 228, 350, 164, 350, 1, { c: GOOD }); tx(g, 'reward', 196, 378, { f: 'mono', s: 10, al: 'center', c: GOOD });
+        const u = (t * .6) % 1; cc(g, u < .5 ? mixn(162, 226, u * 2) : mixn(228, 164, (u - .5) * 2), u < .5 ? 332 : 350, 4, { fill: u < .5 ? INK : GOOD });
+        const x0 = 400, x1 = 570, y0 = 400, y1 = 220; g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0, x1, y0); ln(g, x0, y0, x0, y1);
+        curveP(g, v => .05 + .9 * (1 - Math.exp(-3 * v)) + .03 * Math.sin(v * 30), 0, 1, v => x0 + (x1 - x0) * v, v => y0 - (y0 - y1) * v, sg(t, .5, 4), { c: GOOD, lw: 2.2 }); tx(g, 'task performance', x0, y1 - 10, { f: 'mono', s: 10, c: ink(.65) }); tx(g, 'schematic', x1, y0 + 16, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) }); }); }
+  },
+
+  ppo(g, S) {
+    const { c, P, k, t } = S;
+    if (k === 0) {
+      const acts = ['left', 'right', 'jump', 'wait'], adv = [-1, 1, .4, -.4], base0 = [.3, .3, .2, .2], u = sg(t, 1.5, 4);
+      const raw = base0.map((p, i) => p * Math.exp(adv[i] * 1.2 * u)), s = raw.reduce((a, b) => a + b, 0);
+      acts.forEach((nm, i) => { const x = 135 + i * 110, h = 240 * raw[i] / s, base = 330, a = P(0, i * .1, i * .1 + .5); bx(g, x - 30, base - h, 60, h, { r: 6, fill: adv[i] > 0 ? rgba(c, .85) : ink(.3), a }); tx(g, nm, x, base + 22, { s: 13, al: 'center', a }); tx(g, (raw[i] / s).toFixed(2), x, base - h - 8, { f: 'mono', s: 11, al: 'center', c: ink(.75), a }); tx(g, adv[i] > 0 ? 'better ↑' : 'worse ↓', x, base + 42, { f: 'mono', s: 9.5, al: 'center', c: adv[i] > 0 ? GOOD : BAD, a: sg(t, 1, 1.6) }); });
+      tx(g, 'π(a | s): the policy’s probability for each action · Â = advantage', 300, 56, { f: 'mono', s: 12, al: 'center', c: ink(.75) });
+    }
+    if (k === 1) {
+      const x0 = 80, x1 = 540, y0 = 360, y1 = 100, X = u => x0 + (x1 - x0) * u, Y = v => y0 - (y0 - y1) * v, f = u => clamp01(.3 + .9 * u - 4.5 * Math.max(0, u - .45) ** 2);
+      const a = sg(t, 0, .6); g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0, x1, y0); ln(g, x0, y0, x0, y1);
+      tx(g, 'size of one policy update →', x1, y0 + 22, { f: 'mono', s: 10.5, al: 'right', c: ink(.65), a }); tx(g, 'performance after the update', x0, y1 - 12, { f: 'mono', s: 10.5, c: ink(.65), a }); tx(g, 'schematic', x1, y1 - 12, { f: 'mono', s: 9.5, al: 'right', c: ink(.35), a });
+      curveP(g, f, 0, 1, X, Y, sg(t, .5, 3.5), { c, lw: 2.6 });
+      const m = sg(t, .5, 3.5); cc(g, X(m), Y(f(m)), 6, { fill: m > .7 ? BAD : INK });
+      tx(g, 'too big: performance collapses', X(.8), Y(.12) - 12, { f: 'mono', s: 11, al: 'center', c: BAD, a: sg(t, 3, 3.8) });
+    }
+    if (k === 2) {
+      const eps = .2, x = 90, pw = 420, py = 90, ph = 270, lo = -.15, hi = 1.55, X = r => x + r / 2 * pw, Y = v => py + ph - (v - lo) / (hi - lo) * ph, f = r => Math.min(r, Math.min(Math.max(r, 1 - eps), 1 + eps));
+      g.fillStyle = rgba(c, .1); g.fillRect(X(1 - eps), py, X(1 + eps) - X(1 - eps), ph);
+      g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x, Y(0), x + pw, Y(0)); ln(g, X(0), py, X(0), py + ph);
+      g.save(); g.strokeStyle = ink(.3); g.setLineDash([5, 5]); ln(g, X(0), Y(0), X(1.55), Y(1.55)); g.restore();
+      curveP(g, f, 0, 2, X, Y, sg(t, .3, 2.5), { c, lw: 3 });
+      tx(g, 'ratio r = new probability / old probability', x + pw, Y(0) + 24, { f: 'mono', s: 10.5, al: 'right', c: ink(.65) }); tx(g, '1 − ε', X(1 - eps), py + ph + 18, { f: 'math', it: true, s: 15, al: 'center' }); tx(g, '1 + ε', X(1 + eps), py + ph + 18, { f: 'math', it: true, s: 15, al: 'center' });
+      tx(g, 'unclipped', X(1.5) - 6, Y(1.55) + 2, { f: 'mono', s: 10.5, al: 'right', c: ink(.55) }); tx(g, 'flat: no gain beyond 1 + ε', x + pw, Y(1.2) + 30, { f: 'mono', s: 10.5, al: 'right', c, a: sg(t, 2.5, 3.3) });
+      if (t > 1) { const r = 1 + .7 * Math.sin(t * 1.2); cc(g, X(r), Y(f(r)), 7, { fill: c, stroke: INK, lw: 1.5 }); }
+      tx(g, 'case shown: advantage Â > 0', x, py - 16, { f: 'mono', s: 11, c: ink(.75) });
+    }
+  },
+
+  bert(g, S) {
+    const { c, P, k, t } = S;
+    const toks = ['[CLS]', 'the', 'man', 'went', 'to', 'the', 'store', '[SEP]', 'he', 'bought', 'a', 'gallon', 'of', 'milk', '[SEP]'], masked = [5, 12], answers = ['the', 'of'];
+    const n = toks.length, xs = toks.map((_, i) => 34 + i * 38.7), y = 230, top = k === 2 ? 1 - sg(t, 0, .8) : 1;
+    ga(g, top, () => {
+      toks.forEach((w, i) => { const m = masked.includes(i), flip = m ? P(0, 1.6, 2.4) : 0, a = P(0, i * .06, i * .06 + .4), label = flip > .5 ? '[MASK]' : w;
+        bx(g, xs[i] - 18, y - 13, 36, 26, { r: 5, fill: flip > .5 ? rgba(c, .9) : ink(.07), stroke: flip > .5 ? c : ink(.3), lw: 1, a }); tx(g, label, xs[i], y + 4, { f: 'mono', s: label.length > 5 ? 7.6 : label.length > 4 ? 8.6 : 10, al: 'center', c: flip > .5 ? PLATE : INK, w: flip > .5 ? 700 : 500, a }); });
+      if (k === 0) tx(g, '15% of the tokens are hidden', 300, 130, { f: 'mono', s: 12, al: 'center', c: ink(.75), a: P(0, 2, 2.8) });
+      if (k >= 1) { masked.forEach((mi, q) => { for (let j = 0; j < n; j++) { if (j === mi) continue; const d = Math.abs(j - mi); if (d > 5) continue; const above = j < mi, x1 = xs[j], x2 = xs[mi], h = 18 + d * 12, al = P(1, .3 + d * .15, .8 + d * .15) * (1 - d / 7);
+          ga(g, al, () => { g.strokeStyle = c; g.lineWidth = 1.2; g.beginPath(); if (above) { g.moveTo(x1, y - 14); g.bezierCurveTo(x1, y - 14 - h, x2, y - 14 - h, x2, y - 14); } else { g.moveTo(x1, y + 14); g.bezierCurveTo(x1, y + 14 + h, x2, y + 14 + h, x2, y + 14); } g.stroke(); }); }
+          const pa = P(1, 2.6, 3.4); bx(g, xs[mi] - 26, y - 128, 52, 26, { r: 6, fill: rgba(GOOD, .2), stroke: GOOD, a: pa }); tx(g, answers[q], xs[mi], y - 110, { s: 12.5, al: 'center', w: 700, a: pa }); ar(g, xs[mi], y - 100, xs[mi], y - 86, pa, { c: GOOD, hs: 6, lw: 1.4 }); });
+        tx(g, 'arcs above: context on the left · arcs below: context on the right', 300, 370, { f: 'mono', s: 10.5, al: 'center', c: ink(.7), a: P(1, 1.5, 2.3) }); }
+    });
+    if (k === 2) { const a = sg(t, .6, 1.4);
+      ga(g, a, () => { bx(g, 150, 60, 300, 70, { r: 14, fill: rgba(c, .22), stroke: c, lw: 1.6 }); tx(g, 'pretrained BERT', 300, 102, { f: 'mono', s: 14, al: 'center', w: 600 });
+        [['question answering', 'SQuAD'], ['sentiment', 'SST-2'], ['entailment', 'MNLI'], ['named entities', 'CoNLL-2003']].forEach(([n1, n2], i) => { const x = 90 + i * 140, yy = 290, pr = sg(t, 1.2 + i * .3, 2 + i * .3); ar(g, 300, 132, x, yy - 30, pr, { c: ink(.5) }); bx(g, x - 64, yy - 28, 128, 56, { r: 10, fill: ink(.06), stroke: ink(.4), a: pr }); tx(g, n1, x, yy - 4, { s: 12.5, al: 'center', a: pr }); tx(g, n2, x, yy + 14, { f: 'mono', s: 10, al: 'center', c: ink(.6), a: pr }); });
+        tx(g, 'add one small output layer for each task, then fine-tune', 300, 382, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 2.5, 3.3) }); }); }
+  },
+
+  scaling(g, S) {
+    const { c, k, t } = S;
+    const panel = (x0, y0, w, h, title, prog) => { g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0 + h, x0 + w, y0 + h); ln(g, x0, y0 + h, x0, y0); g.strokeStyle = ink(.06); for (let i = 1; i < 5; i++) ln(g, x0 + w * i / 5, y0, x0 + w * i / 5, y0 + h);
+      tx(g, title, x0, y0 - 10, { f: 'mono', s: 11, c: ink(.8) });
+      const R2 = rng(title.length); for (let i = 0; i < 8; i++) { const u = .05 + i * .11, v = .9 - .75 * u + (R2() - .5) * .05; if (u > prog * 1.05) continue; cc(g, x0 + w * u, y0 + h * (1 - v), 4, { fill: INK }); }
+      ga(g, sg(prog, .3, 1), () => { g.strokeStyle = c; g.lineWidth = 2.2; ln(g, x0, y0 + h * .1, x0 + w * .85, y0 + h * (1 - (.9 - .75 * .85))); }); };
+    if (k === 0) { panel(90, 80, 440, 280, 'test loss vs number of parameters (log–log)', sg(t, .3, 3.5)); tx(g, 'parameters →', 530, 386, { f: 'mono', s: 10.5, al: 'right', c: ink(.6) }); tx(g, 'loss', 84, 72, { f: 'mono', s: 10.5, al: 'right', c: ink(.6) }); tx(g, 'a straight line: a power law', 420, 150, { f: 'mono', s: 12, al: 'center', c, a: sg(t, 3.5, 4.3) }); tx(g, 'schematic', 530, 66, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) }); }
+    if (k === 1) ga(g, sg(t, 0, .6), () => { [['parameters N', 0], ['dataset size D', 1], ['compute C', 2]].forEach(([nm, i]) => panel(40 + i * 190, 120, 150, 200, nm, sg(t, .3 + i * .8, 2.3 + i * .8))); tx(g, 'all three give straight lines on log–log axes', 300, 378, { f: 'mono', s: 11.5, al: 'center', c: ink(.75), a: sg(t, 3, 3.8) }); tx(g, 'schematic', 560, 90, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) }); });
+    if (k === 2) { panel(90, 80, 440, 280, 'extend the trend to a bigger model', 1); const e = sg(t, .5, 2.2), xa = 90 + 440 * .85, ya = 80 + 280 * (1 - (.9 - .75 * .85)), xb = 90 + 440 * mixn(.85, 1, e), yb = 80 + 280 * (1 - (.9 - .75 * mixn(.85, 1, e)));
+      g.save(); g.strokeStyle = c; g.lineWidth = 2; g.setLineDash([6, 5]); ln(g, xa, ya, xb, yb); g.restore();
+      const px = 530, py = 80 + 280 * (1 - .15); if (e > .95) { g.strokeStyle = c; g.lineWidth = 1.6; ring(g, px, py, 10); tx(g, 'predicted', px - 16, py - 16, { f: 'mono', s: 11, al: 'right', c }); }
+      const m = sg(t, 3, 4); if (m > 0) { cc(g, px, mixn(py - 70, py + 2, m), 5, { fill: INK }); if (m > .95) tx(g, 'measured', px - 16, py + 26, { f: 'mono', s: 11, al: 'right' }); } }
+  },
+
+  gpt3(g, S) {
+    const { c, k, t } = S;
+    if (k === 0) { const sizes = [.125, .35, .76, 1.3, 2.7, 6.7, 13, 175], labels = ['125M', '350M', '760M', '1.3B', '2.7B', '6.7B', '13B', '175B'], lo = Math.log10(.05), hi = Math.log10(175), base = 380, top = 80;
+      sizes.forEach((s, i) => { const h = (Math.log10(s) - lo) / (hi - lo) * (base - top) * sg(t, i * .35, i * .35 + .8), x = 70 + i * 62; bx(g, x, base - h, 44, h, { r: 4, fill: i === 7 ? c : rgba(c, .25 + .07 * i) }); tx(g, labels[i], x + 22, base + 18, { f: 'mono', s: 10.5, al: 'center', c: ink(.8) }); });
+      tx(g, 'parameters (log scale)', 70, 58, { f: 'mono', s: 11, c: ink(.65) }); }
+    if (k === 1) { const lines = [['Translate English to French:', ink(.6)], ['sea otter => loutre de mer', INK], ['peppermint => menthe poivrée', INK], ['plush girafe => girafe peluche', INK], ['cheese =>', INK]];
+      bx(g, 50, 70, 500, 250, { r: 14, fill: ink(.05), stroke: ink(.25) }); tx(g, 'prompt', 66, 94, { f: 'mono', s: 10, c: ink(.55) });
+      const chars = Math.floor(t * 30); let used = 0;
+      lines.forEach(([s, col], i) => { tx(g, s.slice(0, Math.max(0, chars - used)), 70, 130 + i * 34, { f: 'mono', s: 15, c: col }); used += s.length; });
+      const og = chars - used; if (og > 0) { g.save(); g.font = `500 15px ${FONTS.mono}`; const w0 = g.measureText('cheese => ').width; g.restore(); tx(g, 'fromage'.slice(0, Math.floor(og / 2)), 70 + w0, 130 + 4 * 34, { f: 'mono', s: 15, c, w: 700 }); }
+      tx(g, 'the model continues the pattern; its weights never change', 300, 368, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 5.2, 6) }); }
+    if (k === 2) { const x0 = 80, x1 = 540, y0 = 370, y1 = 100; g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0, x1, y0); ln(g, x0, y0, x0, y1); tx(g, 'model size (log) →', x1, y0 + 22, { f: 'mono', s: 10.5, al: 'right', c: ink(.65) }); tx(g, 'accuracy', x0, y1 - 12, { f: 'mono', s: 10.5, c: ink(.65) }); tx(g, 'schematic', x1, y1 - 12, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) });
+      [['few-shot', c, 2.1], ['one-shot', rgba(c, .6), 1.5], ['zero-shot', ink(.6), 1]].forEach(([nm, col, sl], i) => { const f = u => .08 + .28 * sl * u ** 1.6; curveP(g, f, 0, 1, u => x0 + (x1 - x0) * u, v => y0 - (y0 - y1) * v, sg(t, .4 + i * .5, 3 + i * .5), { c: col, lw: 2.4 }); tx(g, nm, x1 - 4, y0 - (y0 - y1) * f(1) - 10, { f: 'mono', s: 11, al: 'right', c: col, a: sg(t, 3 + i * .5, 3.4 + i * .5) }); }); }
+  },
+
+  ddpm(g, S) {
+    const { c, k, t } = S;
+    const N = 140, R0 = rng(2), tgt = [], noise = [];
+    for (let i = 0; i < N; i++) { const a = i / N * TAU, r = .3 + .1 * Math.cos(3 * a); tgt.push([.5 + r * Math.cos(a), .5 + r * Math.sin(a)]); noise.push([gauss(R0) * .22, gauss(R0) * .22]); }
+    const panel = (x, y, s, lvl, a, label) => ga(g, a, () => { bx(g, x, y, s, s, { r: 6, fill: ink(.03), stroke: ink(.25), lw: 1 }); g.save(); g.beginPath(); g.rect(x, y, s, s); g.clip(); const sig = Math.sqrt(1 - lvl * lvl);
+      tgt.forEach((q, i) => cc(g, x + s * (.5 + lvl * (q[0] - .5) + sig * noise[i][0]), y + s * (.5 + lvl * (q[1] - .5) + sig * noise[i][1]), Math.max(1, s / 70), { fill: lvl > .5 ? rgba(c, .5 + .5 * lvl) : ink(.4 + .4 * lvl) })); g.restore(); if (label) tx(g, label, x + s / 2, y + s + 16, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) }); });
+    if (k === 0) { [0, 200, 400, 600, 800, 1000].forEach((st, i) => { const lvl = Math.pow(Math.max(0, 1 - st / 1000), .6), x = 20 + i * 96; panel(x, 160, 80, lvl, sg(t, i * .6, i * .6 + .5), 't = ' + st); if (i < 5) ar(g, x + 82, 200, x + 94, 200, sg(t, i * .6 + .3, i * .6 + .6), { c: ink(.5), hs: 5 }); });
+      tx(g, 'forward process: a little Gaussian noise at every step', 300, 110, { f: 'mono', s: 11.5, al: 'center', c: ink(.75), a: sg(t, .3, 1) }); }
+    if (k === 1) { const a = sg(t, 0, .6); panel(30, 120, 160, .45, a, 'noisy image at step t');
+      ga(g, a, () => { ar(g, 196, 200, 236, 200, 1, { c: ink(.5) }); poly(g, [[244, 150], [270, 150], [290, 210], [310, 210], [330, 150], [356, 150], [326, 250], [274, 250]]); g.closePath(); g.fillStyle = rgba(c, .2); g.fill(); g.strokeStyle = c; g.lineWidth = 1.5; g.stroke(); tx(g, 'U-Net', 300, 276, { f: 'mono', s: 11, al: 'center' }); tx(g, '+ step t', 300, 294, { f: 'mono', s: 10, al: 'center', c: ink(.6) }); ar(g, 362, 186, 404, 146, 1, { c: ink(.5) }); });
+      const nz = (x, y, s, seed, al) => ga(g, al, () => { const R2 = rng(seed); for (let i = 0; i < 64; i++) { const v = gauss(R2); g.fillStyle = v > 0 ? rgba(c, Math.min(1, .2 + .4 * v)) : ink(Math.min(.8, .1 + .3 * -v)); g.fillRect(x + (i % 8) * s / 8, y + Math.floor(i / 8) * s / 8, s / 8 - 1, s / 8 - 1); } });
+      const pr = sg(t, 1, 2); nz(412, 100, 80, 7, pr * a); tx(g, 'predicted noise ε̂', 452, 198, { f: 'mono', s: 10.5, al: 'center', c: ink(.7), a: pr }); nz(412, 232, 80, 7, a * sg(t, 1.6, 2.4)); tx(g, 'true noise ε', 452, 330, { f: 'mono', s: 10.5, al: 'center', c: ink(.7), a: sg(t, 1.6, 2.4) });
+      tx(g, 'train to minimise ‖ε − ε̂‖²', 300, 384, { f: 'math', it: true, s: 20, al: 'center', a: sg(t, 2.6, 3.4) }); }
+    if (k === 2) { const pr = sg(t, .5, 6.5); panel(170, 60, 260, pr, 1, null); tx(g, 't = ' + Math.round(1000 * (1 - pr)), 300, 352, { f: 'mono', s: 14, al: 'center', c, w: 600 }); tx(g, 'reverse process: start from noise, denoise step by step', 300, 378, { f: 'mono', s: 11, al: 'center', c: ink(.7) }); }
+  },
+
+  vit(g, S) {
+    const { c, P, k, t } = S;
+    const n = 4, size = 220, ox = 40, oy = 70, cell = size / n, px = 6, gap = k === 0 ? 10 * sg(t, 1, 2.5) : 10;
+    const blobs = [[.3, .35, .22], [.72, .62, .26], [.42, .82, .14]], v = (x, y) => Math.min(1, blobs.reduce((s, [bx_, by, r]) => s + Math.exp(-((x - bx_) ** 2 + (y - by) ** 2) / (r * r)), 0));
+    const mv = P(1, .3, 3), seqY = 350, tw = 30, sx0 = 300 - (17 * (tw + 4)) / 2;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const idx = i * n + j, gx = ox + j * (cell + gap), gy = oy + i * (cell + gap), qx = sx0 + (idx + 1) * (tw + 4), s = mixn(cell, tw, mv), x = mixn(gx, qx, mv), y = mixn(gy, seqY, mv);
+      for (let a = 0; a < px; a++) for (let b = 0; b < px; b++) { const val = v((j + (b + .5) / px) / n, (i + (a + .5) / px) / n); g.fillStyle = ink(.06); g.fillRect(x + b * s / px, y + a * s / px, s / px + .3, s / px + .3); g.fillStyle = rgba(c, val * .9); g.fillRect(x + b * s / px, y + a * s / px, s / px + .3, s / px + .3); }
+      if (mv > .9) tx(g, String(idx + 1), qx + tw / 2, seqY + tw + 14, { f: 'mono', s: 9, al: 'center', c: ink(.55), a: sg(mv, .9, 1) }); }
+    if (k === 0) tx(g, 'the image as a grid of 16 × 16-pixel patches', 165, 352, { f: 'mono', s: 11, al: 'center', c: ink(.75), a: sg(t, 2, 2.8) });
+    if (k >= 1) { const ca = P(1, 2.5, 3.2); bx(g, sx0, seqY, tw, tw, { r: 4, fill: INK, a: ca }); tx(g, '★', sx0 + tw / 2, seqY + 21, { s: 13, al: 'center', c: PLATE, a: ca }); tx(g, 'class token', sx0, seqY - 10, { f: 'mono', s: 9.5, c: ink(.65), a: ca }); tx(g, '+ position embeddings 1 … 16', 300, seqY + tw + 36, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: P(1, 3, 3.8) }); }
+    if (k === 1) tx(g, 'patches flattened and projected into a sequence of tokens', 300, 120, { f: 'mono', s: 11, al: 'center', c: ink(.75), a: sg(t, .5, 1.3) });
+    if (k === 2) { const a = sg(t, 0, .8);
+      ga(g, a, () => { bx(g, 70, 150, 460, 120, { r: 14, fill: ink(.04), stroke: ink(.3) }); tx(g, 'standard Transformer encoder', 300, 174, { f: 'mono', s: 12, al: 'center' });
+        const R2 = rng(4); for (let q = 0; q < 26; q++) { const i = Math.floor(R2() * 17), j = Math.floor(R2() * 17), al = .25 + .5 * R2(); if (i === j) continue; const x1 = sx0 + i * (tw + 4) + tw / 2, x2 = sx0 + j * (tw + 4) + tw / 2, h = Math.abs(x2 - x1) * .3 + 10; ga(g, al, () => { g.strokeStyle = c; g.lineWidth = 1; g.beginPath(); g.moveTo(x1, seqY - 2); g.bezierCurveTo(x1, seqY - 2 - h, x2, seqY - 2 - h, x2, seqY - 2); g.stroke(); }); }
+        const oa = sg(t, 2, 3); ar(g, 300, 148, 300, 102, oa, { c: INK }); bx(g, 220, 58, 160, 40, { r: 10, fill: rgba(c, .3), stroke: c, a: oa }); tx(g, 'predicted class', 300, 83, { s: 13, al: 'center', w: 600, a: oa }); tx(g, 'read from the class token', 312, 128, { f: 'mono', s: 10, c: ink(.6), a: oa }); }); }
+  },
+
+  clip(g, S) {
+    const { c, P, k, t } = S;
+    const icon = (type, x, y, s, col) => { g.save(); g.fillStyle = col; g.strokeStyle = col; g.lineWidth = 2;
+      if (type === 'dog') { dot(g, x, y + 2, s * .3); g.beginPath(); g.ellipse(x - s * .28, y - s * .12, s * .1, s * .2, -.4, 0, TAU); g.fill(); g.beginPath(); g.ellipse(x + s * .28, y - s * .12, s * .1, s * .2, .4, 0, TAU); g.fill(); }
+      else if (type === 'car') { rr(g, x - s * .38, y - s * .05, s * .76, s * .22, 3); g.fill(); rr(g, x - s * .2, y - s * .22, s * .4, s * .2, 3); g.fill(); g.fillStyle = PLATE; dot(g, x - s * .22, y + s * .2, s * .09); dot(g, x + s * .22, y + s * .2, s * .09); }
+      else if (type === 'cup') { rr(g, x - s * .22, y - s * .22, s * .36, s * .42, 4); g.fill(); g.beginPath(); g.arc(x + s * .16, y, s * .1, -Math.PI / 2, Math.PI / 2); g.stroke(); }
+      else { g.beginPath(); g.moveTo(x - s * .35, y - s * .05); g.quadraticCurveTo(x - s * .15, y - s * .3, x, y); g.quadraticCurveTo(x + s * .15, y - s * .3, x + s * .35, y - s * .05); g.stroke(); }
+      g.restore(); };
+    const types = ['dog', 'car', 'cup', 'bird'], caps = ['a dog on the grass', 'a red car', 'a cup of coffee', 'a bird in flight'], n = 4, cs = 62, ox = 240, oy = 150;
+    if (k < 2) {
+      types.forEach((ty, i) => { const a = P(0, i * .2, i * .2 + .5), y = oy + i * cs + cs / 2; bx(g, 30, y - 24, 48, 48, { r: 8, fill: ink(.06), stroke: ink(.25), a }); ga(g, a, () => icon(ty, 54, y, 40, INK)); ar(g, 84, y, 104, y, a, { c: ink(.4), hs: 5 }); });
+      ga(g, P(0, .9, 1.5), () => { bx(g, 108, oy, 100, n * cs, { r: 12, fill: rgba(c, .14), stroke: c }); g.save(); g.translate(158, oy + n * cs / 2); g.rotate(-Math.PI / 2); tx(g, 'image encoder', 0, 4, { f: 'mono', s: 11.5, al: 'center' }); g.restore(); });
+      caps.forEach((cp, j) => { const a = P(0, 1.2 + j * .2, 1.7 + j * .2), x = ox + j * cs + cs / 2; ga(g, a, () => { g.translate(x - 6, oy - 64); g.rotate(-Math.PI / 5); tx(g, cp, 0, 0, { s: 11.5 }); }); });
+      ga(g, P(0, 2, 2.6), () => { bx(g, ox, oy - 50, n * cs, 34, { r: 10, fill: rgba(c, .14), stroke: c }); tx(g, 'text encoder', ox + n * cs / 2, oy - 28, { f: 'mono', s: 11.5, al: 'center' }); });
+      const fill = P(0, 2.8, 4), train = P(1, .5, 4);
+      for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const d = i === j, base = .3 + .3 * Math.abs(Math.sin(i * 3 + j * 5)), v = d ? mixn(base, 1, train) : mixn(base, .05, train);
+        ga(g, fill, () => { g.fillStyle = d && train > .3 ? rgba(c, v) : ink(.05 + .35 * v); g.fillRect(ox + j * cs + 2, oy + i * cs + 2, cs - 4, cs - 4); }); }
+      if (k === 0) tx(g, 'similarity of every image with every caption', ox + n * cs / 2, oy + n * cs + 26, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: sg(t, 3.4, 4.2) });
+      if (k === 1) tx(g, 'pull matching pairs together, push the rest apart', ox + n * cs / 2, oy + n * cs + 26, { f: 'mono', s: 10.5, al: 'center', c: ink(.7), a: sg(t, 1, 1.8) });
+    }
+    if (k === 2) { const a = sg(t, 0, .6);
+      ga(g, a, () => { bx(g, 40, 130, 140, 140, { r: 14, fill: ink(.06), stroke: ink(.3) }); icon('dog', 110, 200, 110, INK); tx(g, 'a new image', 110, 292, { f: 'mono', s: 10.5, al: 'center', c: ink(.65) });
+        const prompts = ['a photo of a dog', 'a photo of a cat', 'a photo of a car', 'a photo of a bird'], sims = [.82, .41, .12, .2];
+        prompts.forEach((p, i) => { const y = 112 + i * 58, w = 220 * sims[i] * sg(t, 1 + i * .2, 2.4 + i * .2); tx(g, p, 230, y, { s: 13.5, c: i === 0 && t > 3 ? c : INK, w: i === 0 && t > 3 ? 700 : 500 }); bx(g, 230, y + 10, Math.max(2, w), 14, { r: 4, fill: i === 0 ? c : ink(.25) }); tx(g, sims[i].toFixed(2), 238 + Math.max(2, w), y + 22, { f: 'mono', s: 10.5, c: ink(.65), a: sg(t, 2.4, 3) }); });
+        tx(g, 'choose the most similar caption, with no extra training', 300, 392, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 3, 3.8) }); tx(g, 'similarities illustrative', 560, 420, { f: 'mono', s: 9.5, al: 'right', c: ink(.35), a: sg(t, 3, 3.8) }); }); }
+  },
+
+  alphafold(g, S) {
+    const { c, k, t } = S;
+    const seq = 'MKTAYIAKQRQISFVKSHFSRQ', n = seq.length;
+    if (k === 0) {
+      const R2 = rng(8), cw = 23, ox = 300 - n * cw / 2, rows = 7, ci = 5, cj = 16;
+      tx(g, 'top row: the query sequence · below: related sequences from other species', 300, 80, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: sg(t, 0, .6) });
+      for (let r = 0; r < rows; r++) { const a = sg(t, r * .35, r * .35 + .5); let s = ''; for (let i = 0; i < n; i++) { let ch = seq[i]; if (r > 0 && R2() < .18) ch = 'ACDEFGHIKLMNPQRSTVWY'[Math.floor(R2() * 20)]; s += ch; }
+        const mut = r > 0 && r % 2 === 0;
+        for (let i = 0; i < n; i++) { let ch = s[i]; const special = i === ci || i === cj; if (special && mut) ch = i === ci ? 'E' : 'K'; tx(g, ch, ox + i * cw + cw / 2, 120 + r * 34, { f: 'mono', s: r === 0 ? 16 : 14, al: 'center', c: special ? (mut ? c : INK) : (r === 0 ? INK : ink(.55)), w: r === 0 ? 700 : 500, a }); } }
+      ga(g, sg(t, 3, 4), () => { [ci, cj].forEach(i => bx(g, ox + i * cw + 1, 98, cw - 2, rows * 34 + 4, { r: 6, stroke: c, lw: 1.6 })); const x1 = ox + ci * cw + cw / 2, x2 = ox + cj * cw + cw / 2; g.strokeStyle = c; g.lineWidth = 2; g.beginPath(); g.moveTo(x1, 360); g.bezierCurveTo(x1, 404, x2, 404, x2, 360); g.stroke(); tx(g, 'these two columns change together, so they are probably in contact', 300, 428, { f: 'mono', s: 10.5, al: 'center', c }); });
+    }
+    if (k === 1) { const cs = 13, ox = 300 - n * cs / 2, oy = 84, fill = sg(t, .3, 3);
+      for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const d = Math.abs(i - j); let v = Math.exp(-d / 1.6); if ((i >= 4 && i <= 7 && j >= 14 && j <= 18) || (j >= 4 && j <= 7 && i >= 14 && i <= 18)) v = Math.max(v, .75); if (d === 3 || d === 4) v = Math.max(v, .35);
+        g.fillStyle = (i + j) / (2 * n) < fill ? (v > .3 ? rgba(c, .15 + .85 * v) : ink(.05)) : ink(.02); g.fillRect(ox + j * cs, oy + i * cs, cs - 1, cs - 1); }
+      tx(g, 'residue i', ox - 8, oy + n * cs / 2, { f: 'mono', s: 10, al: 'right', c: ink(.6) }); tx(g, 'residue j', 300, oy - 10, { f: 'mono', s: 10, al: 'center', c: ink(.6) });
+      tx(g, 'pair representation: which residues are close', 300, oy + n * cs + 26, { f: 'mono', s: 11, al: 'center', c: ink(.75), a: sg(t, 2, 2.8) }); tx(g, 'refined by 48 Evoformer blocks', 300, oy + n * cs + 46, { f: 'mono', s: 10.5, al: 'center', c, a: sg(t, 2.8, 3.6) }); }
+    if (k === 2) {
+      const R2 = rng(77), ctrl = [[0, 0, 0]]; for (let i = 1; i < 11; i++) { const p = ctrl[i - 1], th = R2() * TAU, ph = Math.acos(2 * R2() - 1); ctrl.push([p[0] + Math.sin(ph) * Math.cos(th) * .8, p[1] + Math.sin(ph) * Math.sin(th) * .8, p[2] + Math.cos(ph) * .8]); }
+      const Np = 260, raw = []; for (let i = 0; i < Np; i++) raw.push(catmull(ctrl, i / (Np - 1)));
+      const cen = [0, 1, 2].map(d => raw.reduce((a, p) => a + p[d], 0) / Np); let mr = 0; raw.forEach(p => { mr = Math.max(mr, Math.hypot(p[0] - cen[0], p[1] - cen[1], p[2] - cen[2])); });
+      const helix = s => (s > .08 && s < .24) || (s > .4 && s < .56) || (s > .74 && s < .9), fold = sg(t, .3, 4.5), ay = t * .5 + .4, ax = .35, sc = 190, cx = 300, cy = 210, pts = [];
+      raw.forEach((p, i) => { const s = i / (Np - 1); let x = (p[0] - cen[0]) / mr, y = (p[1] - cen[1]) / mr, z = (p[2] - cen[2]) / mr; if (helix(s)) { const th = i * .95; x += Math.cos(th) * .07; y += Math.sin(th) * .07; z += Math.sin(th + 1) * .05; }
+        x = mixn(-1.15 + 2.3 * s, x, fold); y = mixn(0, y, fold); z = mixn(0, z, fold);
+        const x1 = x * Math.cos(ay) - z * Math.sin(ay), z1 = x * Math.sin(ay) + z * Math.cos(ay), y1 = y * Math.cos(ax) - z1 * Math.sin(ax), z2 = y * Math.sin(ax) + z1 * Math.cos(ax); pts.push([cx + x1 * sc, cy + y1 * sc, z2, helix(s)]); });
+      const segs = []; for (let i = 0; i < Np - 1; i++) segs.push([i, (pts[i][2] + pts[i + 1][2]) / 2]); segs.sort((a, b) => b[1] - a[1]);
+      g.lineCap = 'round'; segs.forEach(([i, z]) => { const d = clamp01((1 - z) / 2), a = pts[i], b = pts[i + 1]; g.strokeStyle = a[3] ? rgba(c, .3 + .7 * d) : ink(.2 + .6 * d); g.lineWidth = a[3] ? 3 + 3.5 * d : 1.6 + 1.8 * d; ln(g, a[0], a[1], b[0], b[1]); }); g.lineCap = 'butt';
+      tx(g, 'structure module: 3D coordinates for every atom', 300, 412, { f: 'mono', s: 11, al: 'center', c: ink(.75), a: sg(t, 3, 3.8) }); tx(g, 'recycled through the network three times', 300, 432, { f: 'mono', s: 10.5, al: 'center', c, a: sg(t, 3.6, 4.4) });
+    }
+  },
+
+  ldm(g, S) {
+    const { c, k, t, L } = S;
+    const img = (x, y, s, a) => ga(g, a, () => { const n = 12, cs = s / n; for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const u = (j + .5) / n, v = (i + .5) / n, fox = Math.exp(-((u - .45) ** 2 + (v - .5) ** 2) / .03), snow = v > .75 ? .5 : .1; g.fillStyle = ink(.06 + snow * .5); g.fillRect(x + j * cs, y + i * cs, cs + .3, cs + .3); g.fillStyle = rgba(c, Math.min(1, fox) * .95); g.fillRect(x + j * cs, y + i * cs, cs + .3, cs + .3); } g.strokeStyle = ink(.3); g.lineWidth = 1; g.strokeRect(x, y, s, s); });
+    const lat = (x, y, s, nl, seed, a) => ga(g, a, () => { const n = 4, cs = s / n, R2 = rng(seed); for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const u = (j + .5) / n, v = (i + .5) / n, st = Math.exp(-((u - .45) ** 2 + (v - .5) ** 2) / .06), val = (1 - nl) * st + nl * R2(); g.fillStyle = rgba(c, .12 + .8 * val); g.fillRect(x + j * cs + 1, y + i * cs + 1, cs - 2, cs - 2); } g.strokeStyle = rgba(c, .7); g.lineWidth = 1; g.strokeRect(x, y, s, s); });
+    if (k === 0) { img(30, 110, 200, sg(t, 0, .6)); tx(g, 'image', 130, 330, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: sg(t, 0, .6) });
+      ga(g, sg(t, .8, 1.6), () => { poly(g, [[240, 110], [330, 170], [330, 250], [240, 310]]); g.closePath(); g.fillStyle = ink(.06); g.fill(); g.strokeStyle = ink(.35); g.lineWidth = 1.2; g.stroke(); tx(g, 'encoder', 285, 214, { f: 'mono', s: 10.5, al: 'center', c: ink(.75) }); });
+      lat(345, 175, 60, 0, 1, sg(t, 1.6, 2.4)); tx(g, 'latent', 375, 258, { f: 'mono', s: 10.5, al: 'center', c: ink(.65), a: sg(t, 1.6, 2.4) });
+      tx(g, '512 × 512 × 3 pixels → 64 × 64 × 4 latent', 300, 372, { f: 'mono', s: 12, al: 'center', a: sg(t, 2.6, 3.4) }); tx(g, '48× fewer numbers (Stable Diffusion)', 300, 396, { f: 'mono', s: 11, al: 'center', c, a: sg(t, 3.2, 4) }); }
+    if (k === 1) { [1, .7, .4, 0].forEach((nl, i) => { const x = 60 + i * 130; lat(x, 160, 90, nl, nl > 0 ? 30 + i * 3 + Math.floor(L * 2) : 1, sg(t, i * .7, i * .7 + .5)); if (i < 3) ar(g, x + 96, 205, x + 124, 205, sg(t, i * .7 + .3, i * .7 + .7), { c: ink(.5), hs: 6 }); });
+      tx(g, 'denoise the small latent instead of the full image', 300, 120, { f: 'mono', s: 12, al: 'center', c: ink(.8), a: sg(t, .3, 1) }); tx(g, 'noise', 105, 274, { f: 'mono', s: 10.5, al: 'center', c: ink(.6) }); tx(g, 'clean latent', 495, 274, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: sg(t, 2.1, 2.6) }); }
+    if (k === 2) { const toks = ['a', 'red', 'fox', 'in', 'snow'];
+      toks.forEach((w, i) => { const x = 70 + i * 52, a = sg(t, i * .15, i * .15 + .4); bx(g, x - 22, 60, 44, 26, { r: 6, fill: rgba(c, .25), stroke: c, a }); tx(g, w, x, 78, { s: 12, al: 'center', a }); });
+      ga(g, sg(t, .8, 1.4), () => { bx(g, 60, 110, 230, 34, { r: 8, fill: ink(.06), stroke: ink(.35) }); tx(g, 'text encoder', 175, 132, { f: 'mono', s: 11, al: 'center' }); });
+      const ua = sg(t, 1.4, 2.2); ga(g, ua, () => { bx(g, 80, 220, 190, 130, { r: 14, fill: rgba(c, .1), stroke: c }); for (let q = 0; q < 5; q++) { g.save(); g.strokeStyle = rgba(c, .7); g.lineWidth = 1; g.setLineDash([3, 3]); ln(g, 175, 146, 100 + q * 38, 222); g.restore(); } tx(g, 'cross-attention', 290, 190, { f: 'mono', s: 10.5, c }); lat(150, 236, 50, Math.max(0, 1 - sg(t, 2, 5)), 9 + Math.floor(L * 2), 1); tx(g, 'denoising U-Net', 175, 330, { f: 'mono', s: 11, al: 'center' }); });
+      ga(g, sg(t, 4.5, 5.5), () => { ar(g, 276, 285, 330, 285, 1, { c: ink(.5) }); poly(g, [[336, 255], [400, 205], [400, 365], [336, 315]]); g.closePath(); g.fillStyle = ink(.06); g.fill(); g.strokeStyle = ink(.35); g.lineWidth = 1.2; g.stroke(); tx(g, 'decoder', 368, 289, { f: 'mono', s: 10, al: 'center', c: ink(.75) }); }); img(410, 200, 170, sg(t, 5.2, 6.2)); }
+  },
+
+  cot(g, S) {
+    const { c, k, t } = S;
+    const Q = 'The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?';
+    const card = (y, label, text, chars, mark, h) => { bx(g, 40, y, 520, h, { r: 14, fill: ink(.05), stroke: ink(.2) }); tx(g, label, 58, y + 22, { f: 'mono', s: 10, c: ink(.6) }); wrapT(g, text, 58, y + 48, 484, 23, { s: 16, f: 'serif' }, chars); if (mark) tx(g, mark[0], 540, y + 26, { s: 20, w: 700, al: 'right', c: mark[1] }); };
+    if (k < 2) { card(40, 'QUESTION', Q, null, null, 96);
+      if (k === 0) { card(156, 'MODEL ANSWER · standard prompting', 'The answer is 27.', Math.floor(sg(t, .8, 1.8) * 30), t > 2.2 ? ['✗', BAD] : null, 74); tx(g, 'it jumps straight to an answer, and gets it wrong', 300, 270, { f: 'mono', s: 11.5, al: 'center', c: BAD, a: sg(t, 2.4, 3) }); }
+      if (k === 1) { const A = 'The cafeteria had 23 apples originally. They used 20 to make lunch. So they had 23 − 20 = 3. They bought 6 more apples, so they have 3 + 6 = 9. The answer is 9.', ch = Math.floor(t * 28), done = ch > A.length + 8; card(156, 'MODEL ANSWER · chain-of-thought prompting', A, ch, done ? ['✓', GOOD] : null, 140); tx(g, 'it writes out the steps, then answers correctly', 300, 330, { f: 'mono', s: 11.5, al: 'center', c: GOOD, a: done ? 1 : 0 }); tx(g, 'example from Figure 1 of the paper', 300, 420, { f: 'mono', s: 9.5, al: 'center', c: ink(.4) }); } }
+    if (k === 2) { const base = 370, top = 110, sc = (base - top) / 70;
+      tx(g, 'GSM8K math word problems · PaLM 540B', 300, 70, { f: 'mono', s: 12, al: 'center', c: ink(.8) });
+      g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, 120, base, 480, base);
+      [[17.9, 'standard prompting', ink(.45)], [56.9, 'chain-of-thought', c]].forEach(([v, nm, col], i) => { const x = 170 + i * 160, gr = sg(t, .4 + i * .6, 1.6 + i * .6), h = sc * v * gr; bx(g, x, base - h, 100, h, { r: 6, fill: col }); tx(g, (v * gr).toFixed(1) + '%', x + 50, base - h - 10, { f: 'mono', s: 17, al: 'center', w: 600, a: gr > .02 ? 1 : 0 }); tx(g, nm, x + 50, base + 22, { f: 'mono', s: 11, al: 'center', c: ink(.75) }); }); }
+  },
+
+  instructgpt(g, S) {
+    const { c, k, t } = S;
+    const stepLabel = i => tx(g, ['Step 1 · supervised fine-tuning', 'Step 2 · reward model', 'Step 3 · reinforcement learning with PPO'][i], 300, 40, { f: 'mono', s: 12.5, al: 'center', c, a: sg(t, 0, .5) });
+    if (k === 0) { stepLabel(0); const a = sg(t, .2, .8); bx(g, 40, 76, 320, 44, { r: 10, fill: ink(.06), stroke: ink(.3), a }); tx(g, 'Explain the moon landing to a 6 year old', 56, 103, { s: 13.5, a }); tx(g, 'prompt', 372, 103, { f: 'mono', s: 10, c: ink(.55), a });
+      person(g, 90, 226, 50, ink(.85), sg(t, .8, 1.4)); tx(g, 'labeler', 90, 276, { f: 'mono', s: 10, al: 'center', c: ink(.65), a: sg(t, .8, 1.4) });
+      const w = sg(t, 1.4, 3.4); bx(g, 150, 160, 240, 110, { r: 10, fill: ink(.04), stroke: ink(.25), a: sg(t, 1.2, 1.6) }); for (let i = 0; i < 5; i++) { const lw = clamp01(w * 5 - i) * (150 + 50 * Math.sin(i * 2)); g.fillStyle = rgba(c, .8); g.fillRect(166, 180 + i * 17, lw, 6); }
+      tx(g, 'a written demonstration', 270, 290, { f: 'mono', s: 10, al: 'center', c: ink(.65), a: sg(t, 1.4, 2) });
+      ar(g, 400, 215, 448, 215, sg(t, 3.4, 4), { c: ink(.5) }); bx(g, 455, 180, 120, 70, { r: 12, fill: rgba(c, .25), stroke: c, a: sg(t, 3.8, 4.4) }); tx(g, 'fine-tuned', 515, 212, { f: 'mono', s: 11.5, al: 'center', a: sg(t, 3.8, 4.4) }); tx(g, 'GPT-3', 515, 230, { f: 'mono', s: 11.5, al: 'center', a: sg(t, 3.8, 4.4) }); }
+    if (k === 1) { stepLabel(1);
+      ['A', 'B', 'C', 'D'].forEach((o, i) => { const a = sg(t, i * .2, i * .2 + .5); bx(g, 40 + i * 70, 80, 60, 74, { r: 8, fill: ink(.06), stroke: ink(.3), a }); tx(g, o, 70 + i * 70, 108, { f: 'mono', s: 14, w: 700, al: 'center', a }); ga(g, a, () => { for (let q = 0; q < 3; q++) { g.fillStyle = ink(.35); g.fillRect(52 + i * 70, 120 + q * 9, 36 - q * 6, 4); } }); });
+      tx(g, 'four model answers to one prompt', 160, 178, { f: 'mono', s: 10, al: 'center', c: ink(.6) });
+      person(g, 380, 130, 50, ink(.85), sg(t, .8, 1.3));
+      const rank = sg(t, 1.5, 3.5); ['D', 'C', 'A', 'B'].forEach((o, i) => { const y = 200 + i * 40, a = clamp01(rank * 4 - i); bx(g, 330, y, 100, 30, { r: 6, fill: i === 0 ? rgba(c, .5) : ink(.08), stroke: ink(.3), a }); tx(g, (i === 3 ? '= ' : i ? '> ' : '') + o, 380, y + 20, { f: 'mono', s: 13, al: 'center', w: 700, a }); });
+      ar(g, 440, 270, 470, 270, sg(t, 3.6, 4.2), { c: ink(.5) }); const ra = sg(t, 4, 4.6); bx(g, 475, 235, 105, 70, { r: 12, fill: rgba(c, .25), stroke: c, a: ra }); tx(g, 'reward', 527, 266, { f: 'mono', s: 12, al: 'center', a: ra }); tx(g, 'model', 527, 284, { f: 'mono', s: 12, al: 'center', a: ra }); }
+    if (k === 2) { stepLabel(2); const a = sg(t, .2, 1);
+      ga(g, a, () => { bx(g, 70, 100, 140, 70, { r: 12, fill: rgba(c, .25), stroke: c }); tx(g, 'policy', 140, 140, { f: 'mono', s: 13, al: 'center' }); bx(g, 390, 100, 140, 70, { r: 12, fill: ink(.08), stroke: ink(.5) }); tx(g, 'reward model', 460, 140, { f: 'mono', s: 12, al: 'center' });
+        ar(g, 214, 120, 384, 120, 1, { c: ink(.5) }); tx(g, 'answer', 300, 112, { f: 'mono', s: 10, al: 'center', c: ink(.65) }); ar(g, 384, 152, 214, 152, 1, { c: GOOD }); tx(g, 'reward', 300, 172, { f: 'mono', s: 10, al: 'center', c: GOOD });
+        const u = (t * .5) % 1; cc(g, u < .5 ? mixn(214, 384, u * 2) : mixn(384, 214, (u - .5) * 2), u < .5 ? 120 : 152, 5, { fill: u < .5 ? INK : GOOD }); });
+      const b = sg(t, 2, 4), la = sg(t, 1.8, 2.4); tx(g, 'labelers preferred InstructGPT 175B over GPT-3 175B', 300, 262, { f: 'mono', s: 11, al: 'center', c: ink(.75), a: la }); bx(g, 100, 280, 400, 26, { r: 13, fill: ink(.1), a: la }); bx(g, 100, 280, 400 * .85 * b, 26, { r: 13, fill: c }); tx(g, Math.round(85 * b) + '%', 100 + 400 * .85 * b - 12, 298, { f: 'mono', s: 13, w: 700, al: 'right', c: PLATE, a: b > .25 ? 1 : 0 }); tx(g, 'of the time', 300, 330, { f: 'mono', s: 11, al: 'center', c: ink(.65), a: sg(t, 3.6, 4.2) });
+      tx(g, 'with a penalty for drifting too far from the fine-tuned model', 300, 372, { f: 'mono', s: 11, al: 'center', c: ink(.65), a: sg(t, 4, 4.8) }); }
+  },
+
+  llama(g, S) {
+    const { c, k, t } = S;
+    if (k === 0) { tx(g, 'parameters', 150, 80, { f: 'mono', s: 11, c: ink(.65) }); tx(g, 'training tokens', 150, 246, { f: 'mono', s: 11, c: ink(.65) });
+      [['GPT-3', 175, 300, ink(.5)], ['LLaMA-13B', 13, 1000, c]].forEach(([nm, pp, tk, col], i) => { const g1 = sg(t, .3 + i * .6, 1.5 + i * .6), g2 = sg(t, 2.2 + i * .6, 3.4 + i * .6);
+        tx(g, nm, 140, 112 + i * 40, { s: 13, al: 'right' }); bx(g, 150, 98 + i * 40, 380 * pp / 175 * g1, 22, { r: 5, fill: col }); tx(g, pp + 'B', 158 + 380 * pp / 175 * g1, 114 + i * 40, { f: 'mono', s: 11, c: ink(.85), a: g1 });
+        tx(g, nm, 140, 278 + i * 40, { s: 13, al: 'right', a: g2 > 0 ? 1 : 0 }); bx(g, 150, 264 + i * 40, 380 * tk / 1000 * g2, 22, { r: 5, fill: col }); tx(g, tk >= 1000 ? '1T' : tk + 'B', 158 + 380 * tk / 1000 * g2, 280 + i * 40, { f: 'mono', s: 11, c: ink(.85), a: g2 }); });
+      tx(g, 'a smaller model, trained on more data', 300, 400, { f: 'mono', s: 12, al: 'center', c, a: sg(t, 4, 4.8) }); }
+    if (k === 1) { const mix = [['CommonCrawl', 67], ['C4', 15], ['GitHub', 4.5], ['Wikipedia', 4.5], ['Books', 4.5], ['ArXiv', 2.5], ['StackExchange', 2]], cx = 190, cy = 225, r = 130, sw = sg(t, .2, 3); let a0 = -Math.PI / 2;
+      mix.forEach(([nm, v], i) => { const a1 = a0 + TAU * v / 100 * sw, col = i === 0 ? c : rgba(c, .78 - i * .09); if (a1 > a0 + .001) { g.beginPath(); g.moveTo(cx, cy); g.arc(cx, cy, r, a0, a1); g.closePath(); g.fillStyle = col; g.fill(); g.strokeStyle = PLATE; g.lineWidth = 2; g.stroke(); } a0 = a1;
+        const la = sg(t, .5 + i * .35, 1 + i * .35); bx(g, 370, 104 + i * 34, 14, 14, { r: 3, fill: col, a: la }); tx(g, nm, 392, 116 + i * 34, { s: 13, a: la }); tx(g, v + '%', 575, 116 + i * 34, { f: 'mono', s: 12, al: 'right', c: ink(.75), a: la }); });
+      cc(g, cx, cy, r * .5, { fill: PLATE }); tx(g, 'public data', cx, cy + 5, { f: 'mono', s: 11, al: 'center', c: ink(.75) }); tx(g, 'pretraining data mix (sampling proportions)', 300, 410, { f: 'mono', s: 10, al: 'center', c: ink(.5) }); }
+    if (k === 2) { const cx = 300, cy = 215, names = ['Alpaca', 'Vicuna', 'Llama 2', 'Code Llama', 'Llama 3', 'Koala'], R2 = rng(3);
+      for (let i = 0; i < 90; i++) { const ang = R2() * TAU, rad = 80 + R2() * 150, ap = R2() * 5, sz = 2 + R2() * 2, isC = R2() < .3; cc(g, cx + Math.cos(ang) * rad * 1.3, cy + Math.sin(ang) * rad * .82, sz, { fill: isC ? c : ink(.5), a: sg(t, 1 + ap, 1.6 + ap) }); }
+      names.forEach((nm, i) => { const ang = -Math.PI / 2 + i * TAU / names.length, a = sg(t, .4 + i * .3, 1 + i * .3), x = cx + Math.cos(ang) * 175, y = cy + Math.sin(ang) * 128; ga(g, a, () => { g.strokeStyle = rgba(c, .6); g.lineWidth = 1.4; ln(g, cx, cy, x, y); }); bx(g, x - 50, y - 14, 100, 28, { r: 14, fill: PLATE, stroke: c, a }); tx(g, nm, x, y + 5, { s: 12.5, al: 'center', a }); });
+      cc(g, cx, cy, 40, { fill: c }); tx(g, 'LLaMA', cx, cy + 5, { s: 14, w: 700, al: 'center', c: PLATE }); tx(g, '+ thousands of community fine-tunes', 300, 420, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 3, 3.8) }); }
+  },
+
+  r1(g, S) {
+    const { c, P, k, t } = S;
+    const G = 6, rew = [1, 0, 1, 1, 0, 0], lens = [.8, .45, .95, .7, .3, .55], rowY = i => 110 + i * 40;
+    if (k < 2) {
+      bx(g, 30, 46, 150, 40, { r: 10, fill: ink(.08), stroke: ink(.4) }); tx(g, 'one question', 105, 71, { f: 'mono', s: 12, al: 'center' });
+      for (let i = 0; i < G; i++) { const a = P(0, .3 + i * .2, .8 + i * .2), y = rowY(i), ch = P(0, 2 + i * .25, 2.4 + i * .25); tx(g, 'answer ' + (i + 1), 30, y + 15, { f: 'mono', s: 10.5, c: ink(.6), a }); bx(g, 100, y, 230 * lens[i], 20, { r: 5, fill: ink(.2), a });
+        tx(g, rew[i] ? '✓' : '✗', 350, y + 16, { s: 15, w: 700, c: rew[i] ? GOOD : BAD, a: ch }); tx(g, 'r = ' + rew[i], 368, y + 15, { f: 'mono', s: 11, c: ink(.75), a: ch }); }
+      if (k === 0) tx(g, 'rule-based check: correct final answer? correct format?', 300, 380, { f: 'mono', s: 11, al: 'center', c: ink(.7), a: sg(t, 2, 2.8) }); }
+    if (k === 1) { const mean = rew.reduce((a, b) => a + b, 0) / G, sd = Math.sqrt(rew.reduce((a, b) => a + (b - mean) ** 2, 0) / G);
+      tx(g, `group mean = ${mean.toFixed(2)}   std = ${sd.toFixed(2)}`, 300, 30, { f: 'mono', s: 11.5, al: 'center', c: ink(.8), a: sg(t, .3, 1) });
+      g.strokeStyle = ink(.4); g.lineWidth = 1; ln(g, 530, 100, 530, 350); tx(g, 'advantage', 530, 92, { f: 'mono', s: 10, al: 'center', c: ink(.6) });
+      for (let i = 0; i < G; i++) { const A = (rew[i] - mean) / sd, y = rowY(i), w = 42 * A * sg(t, 1 + i * .15, 2 + i * .15); bx(g, Math.min(530, 530 + w), y, Math.abs(w), 20, { r: 4, fill: A > 0 ? GOOD : BAD }); tx(g, (A > 0 ? '+' : '') + A.toFixed(1), 470, y + 15, { f: 'mono', s: 10.5, al: 'right', c: ink(.8), a: sg(t, 1, 1.6) }); }
+      tx(g, 'reinforce the ✓ answers, discourage the ✗ ones', 300, 392, { f: 'mono', s: 11, al: 'center', c, a: sg(t, 3, 3.8) }); tx(g, 'no separate value network needed', 300, 414, { f: 'mono', s: 10.5, al: 'center', c: ink(.6), a: sg(t, 3.6, 4.4) }); }
+    if (k === 2) { const x0 = 70, x1 = 550, y0 = 380, y1 = 110, N = 150, R2 = rng(5), len = [], acc = [];
+      for (let i = 0; i < N; i++) { const u = i / (N - 1); len.push(.05 + .82 * Math.pow(u, 1.2) + (R2() - .5) * .08 * (.3 + u)); acc.push(.16 + .55 * (1 - Math.exp(-3.2 * u)) + (R2() - .5) * .04); }
+      const prog = sg(t, .3, 5), M = Math.max(2, Math.floor(prog * N)), X = i => x0 + (x1 - x0) * i / (N - 1), Y = v => y0 - (y0 - y1) * v;
+      g.strokeStyle = ink(.3); g.lineWidth = 1; ln(g, x0, y0, x1, y0); ln(g, x0, y0, x0, y1);
+      g.beginPath(); for (let i = 0; i < M; i++) i ? g.lineTo(X(i), Y(len[i])) : g.moveTo(X(i), Y(len[i])); g.strokeStyle = c; g.lineWidth = 2; g.stroke();
+      g.beginPath(); for (let i = 0; i < M; i++) i ? g.lineTo(X(i), Y(acc[i])) : g.moveTo(X(i), Y(acc[i])); g.strokeStyle = INK; g.lineWidth = 1.8; g.stroke();
+      tx(g, 'response length', x0 + 6, y1 - 8, { f: 'mono', s: 11, c }); tx(g, 'AIME accuracy', x0 + 150, y1 - 8, { f: 'mono', s: 11 }); tx(g, 'RL training steps →', x1, y0 + 22, { f: 'mono', s: 10.5, al: 'right', c: ink(.65) }); tx(g, 'schematic', x1, y1 - 8, { f: 'mono', s: 9.5, al: 'right', c: ink(.35) });
+      const ai = Math.floor(N * .56); if (M > ai) { cc(g, X(ai), Y(len[ai]), 5, { fill: INK }); bx(g, X(ai) - 52, Y(len[ai]) + 34, 104, 24, { r: 12, fill: PLATE, stroke: ink(.4), lw: 1 }); tx(g, '“aha moment”', X(ai), Y(len[ai]) + 50, { f: 'mono', s: 11, al: 'center' }); }
+      tx(g, 'R1-Zero on AIME 2024: 15.6% → 71.0%', 300, 60, { f: 'mono', s: 14, w: 600, al: 'center', c, a: sg(t, 5, 5.8) }); }
+  }
+};
 /* ---------- App ---------- */
 (function () {
   const $ = s => document.querySelector(s);
@@ -1671,18 +2717,19 @@ function drawCover(cv, p, t, box) {
       : { x: artEl.offsetLeft, y: 34, w: artEl.offsetWidth - 34, h: hero.clientHeight - 68 };
   }
   function paintHero(t) { if (!openId) return; if (!heroBox) measureHero(); drawCover(dcv, BY[openId], t, heroBox); }
-  function fitMath() {
-    document.querySelectorAll('#d-eq .p-eq-math').forEach(el => {
+  function fitEqs(list, minF) {
+    list.forEach(el => {
       const wide = el.querySelector('.mx-w'), nar = el.querySelector('.mx-n');
       const fit = (min) => { el.style.fontSize = ''; el.classList.remove('scrolls'); let fs = parseFloat(getComputedStyle(el).fontSize), n = 0;
-        while (el.scrollWidth > el.clientWidth + 1 && fs > min && n++ < 24) { fs -= .75; el.style.fontSize = fs + 'px'; }
+        while (el.scrollWidth > el.clientWidth + 1 && fs > min && n++ < 30) { fs -= .75; el.style.fontSize = fs + 'px'; }
         return el.scrollWidth <= el.clientWidth + 1; };
       if (wide) wide.hidden = false; if (nar) nar.hidden = true;
-      let ok = fit(nar ? 14.5 : 11.75);
-      if (!ok && nar) { wide.hidden = true; nar.hidden = false; ok = fit(11.75); }
+      let ok = fit(nar ? 14.5 : minF);
+      if (!ok && nar) { wide.hidden = true; nar.hidden = false; ok = fit(minF); }
       el.classList.toggle('scrolls', !ok);
     });
   }
+  function fitMath() { fitEqs(document.querySelectorAll('#d-eq .p-eq-math'), 11.75); }
   if ('ResizeObserver' in window) new ResizeObserver(() => { if (dlg.open) { measureHero(); paintHero(dcv._t || 0); fitMath(); } }).observe(dcv);
 
   function heroByline(p) {
@@ -1776,6 +2823,122 @@ function drawCover(cv, p, t, box) {
     const fallback = () => { const r = document.createRange(); r.selectNodeContents($('#d-cite')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); let ok = false; try { ok = document.execCommand('copy'); } catch (e) { } say(ok ? 'Citation copied' : 'Citation selected. Press Ctrl+C or ⌘C to copy'); };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => say('Citation copied'), fallback); else fallback();
   });
+
+  /* explainer player */
+  const lsDlg = $('#lesson'), lsCv = $('#ls-canvas'), lsHtml = $('#ls-html'), lsText = $('#ls-text'), lsProg = $('#ls-progress'), lsPlay = $('#ls-play');
+  const LS = { p: null, slides: [], i: 0, t: 0, playing: false, ended: false, raf: 0, last: 0, rv: [], bars: [] };
+  const nWords = s => String(s || '').split(/\s+/).filter(Boolean).length;
+  const shortAuthors = p => p.etAl ? `${p.authors[0]} et al. (${p.team})` : p.authors.length > 3 ? `${p.authors[0]}, ${p.authors[1]} and ${p.authors.length - 2} others` : p.authors.join(', ');
+  function lessonSlides(p) {
+    const Ls = LESSONS[p.id] || { steps: [], problem: p.idea }, out = [];
+    out.push({ kind: 'cover', label: 'The paper', words: nWords(Ls.problem) + 14 });
+    Ls.steps.forEach((s, i) => out.push({ kind: 'anim', phase: i, label: s[0], title: s[0], body: s[1], words: nWords(s[1]) + 4 }));
+    const M = typeof MATH === 'object' && MATH[p.id];
+    if (M) out.push({ kind: 'eq', label: 'The maths', words: 8 + M.legend.length * 9 });
+    else if (p.stats) out.push({ kind: 'stats', label: 'In numbers', words: 10 + p.stats.length * 8 });
+    out.push({ kind: 'legacy', label: 'Why it mattered', words: nWords(p.impact) + (p.stats ? 0 : (Ls.results || []).length * 9) });
+    out.forEach(s => { s.dur = Math.max(s.kind === 'anim' ? 9 : 8, Math.min(17, 5 + s.words * .21)); });
+    return out;
+  }
+  function slideText(p, s, i, n) {
+    const Ls = LESSONS[p.id] || {}, kick = `<div class="ls-kicker">${i + 1} / ${n} · ${esc(s.label)}</div>`;
+    if (s.kind === 'cover') return kick + `<h3 class="ls-h" id="ls-title">${esc(p.nick)}</h3><p class="ls-sub">${esc(p.title)}</p><p class="ls-meta">${esc(shortAuthors(p))} · ${esc(p.venue)}</p><div class="ls-label">The problem</div><p class="ls-p">${esc(Ls.problem || p.idea)}</p>`;
+    if (s.kind === 'anim') return `<div class="ls-kicker">${i + 1} / ${n} · The key idea, step ${s.phase + 1} of 3</div><h3 class="ls-h">${esc(s.title)}</h3><p class="ls-p">${esc(s.body)}</p>`;
+    if (s.kind === 'eq') { const M = MATH[p.id]; return kick + `<h3 class="ls-h">${esc(p.eqLabel)}</h3><p class="ls-p ls-small">Reading it symbol by symbol:</p><ul class="ls-legend">${M.legend.map(([svg, d], q) => `<li class="rv" data-at="${(1.6 + q * 1.2).toFixed(1)}"><span class="sym">${svg}</span><span>${esc(d)}</span></li>`).join('')}</ul>`; }
+    if (s.kind === 'stats') return kick + `<h3 class="ls-h">${esc(p.eqLabel)}</h3><p class="ls-p">${esc(p.note || p.idea)}</p>`;
+    const res = p.stats ? [] : (Ls.results || []);
+    return kick + `<h3 class="ls-h">Why it mattered</h3><p class="ls-p">${esc(p.impact)}</p>` + (res.length ? `<div class="ls-results">${res.map(([v, cap], q) => `<div class="rv" data-at="${(1.4 + q * .9).toFixed(1)}"><b data-count="${esc(v)}">${esc(v)}</b><span>${esc(cap)}</span></div>`).join('')}</div>` : '');
+  }
+  function slideVisual(p, s) {
+    if (s.kind === 'eq') { const M = MATH[p.id]; return `<div class="lv-eq"><div class="lv-eq-name rv" data-at="0">${esc(p.eqLabel)}</div>${M.lines.map((svg, q) => `<div class="lv-eq-line rv" data-at="${(.4 + q * 1).toFixed(1)}"><div class="p-eq-math lv-math"><span class="mx-w">${svg}</span>${M.narrow && M.narrow[q] ? `<span class="mx-n" hidden>${M.narrow[q]}</span>` : ''}</div><span class="lv-num">(${q + 1})</span></div>`).join('')}</div>`; }
+    if (s.kind === 'stats') return `<div class="lv-stats">${p.stats.map(([v, cap], q) => `<div class="lv-stat rv" data-at="${(.4 + q * .8).toFixed(1)}"><b data-count="${esc(v)}">${esc(v)}</b><span>${esc(cap)}</span></div>`).join('')}</div>`;
+    return '';
+  }
+  function countText(v, e) {
+    const m = /^(\d[\d,]*)(\.\d+)?(.*)$/.exec(v); if (!m || /\d/.test(m[3]) || /^\d{4}$/.test(v)) return null;
+    const dec = m[2] || '', d = dec ? dec.length - 1 : 0, num = parseFloat((m[1] + dec).replace(/,/g, '')) * e;
+    return (m[1].includes(',') ? num.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) : num.toFixed(d)) + m[3];
+  }
+  function drawLegacy(g, p, t, c) {
+    const anc = [...p.builds].sort((a, b) => BY[a].t - BY[b].t), des = [...p.ledTo].sort((a, b) => BY[a].t - BY[b].t), cx = 300, cy = 220;
+    const yOf = (n, i) => n <= 1 ? cy : 70 + i * (300 / (n - 1));
+    tx(g, 'BUILDS ON', 150, 34, { s: 11, w: 600, al: 'center', c: ink(.55) }); tx(g, 'LED TO', 450, 34, { s: 11, w: 600, al: 'center', c: ink(.55) });
+    const edge = (x1, y1, x2, y2, pr, col) => ga(g, pr, () => { g.strokeStyle = col; g.lineWidth = 1.6; g.beginPath(); g.moveTo(x1, y1); g.bezierCurveTo((x1 + x2) / 2, y1, (x1 + x2) / 2, y2, x2, y2); g.stroke(); });
+    anc.forEach((id, i) => { const q = BY[id], y = yOf(anc.length, i), pr = sg(t, .4 + i * .2, 1.2 + i * .2), qc = CATS[q.cat].plate; edge(158, y, cx - 36, cy, pr, rgba(qc, .55)); cc(g, 150, y, 7, { fill: qc, a: pr }); tx(g, q.nick, 138, y + 2, { s: 13, w: 600, al: 'right', a: pr }); tx(g, String(q.year), 138, y + 17, { f: 'mono', s: 10, al: 'right', c: ink(.55), a: pr }); });
+    des.forEach((id, i) => { const q = BY[id], y = yOf(des.length, i), pr = sg(t, 1.6 + i * .18, 2.4 + i * .18), qc = CATS[q.cat].plate; edge(cx + 36, cy, 442, y, pr, rgba(qc, .55)); cc(g, 450, y, 7, { fill: qc, a: pr }); tx(g, q.nick, 462, y + 2, { s: 13, w: 600, a: pr }); tx(g, String(q.year), 462, y + 17, { f: 'mono', s: 10, c: ink(.55), a: pr }); });
+    if (!anc.length) tx(g, 'a starting point', 150, cy + 4, { f: 'mono', s: 11, al: 'center', c: ink(.5), a: sg(t, .4, 1) });
+    if (!des.length) tx(g, 'the newest work here', 450, cy + 4, { f: 'mono', s: 11, al: 'center', c: ink(.5), a: sg(t, 1.6, 2.2) });
+    const pop = sg(t, 0, .7), pulse = 1 + .05 * Math.sin(t * 2.4);
+    const gl = g.createRadialGradient(cx, cy, 0, cx, cy, 80); gl.addColorStop(0, rgba(c, .35 * pop)); gl.addColorStop(1, rgba(c, 0)); g.fillStyle = gl; dot(g, cx, cy, 80);
+    cc(g, cx, cy, 30 * pop * pulse, { fill: c }); tx(g, p.nick, cx, cy + 62, { f: 'serif', s: 19, w: 600, al: 'center', a: pop }); tx(g, String(p.year), cx, cy + 80, { f: 'mono', s: 11, al: 'center', c: ink(.6), a: pop });
+  }
+  function lsCanvas() { const dpr = Math.min(window.devicePixelRatio || 1, 2), W = lsCv.clientWidth, H = lsCv.clientHeight; if (!W || !H) return null; const pw = Math.round(W * dpr), ph = Math.round(H * dpr); if (lsCv.width !== pw || lsCv.height !== ph) { lsCv.width = pw; lsCv.height = ph; } const g = lsCv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return { g, W, H }; }
+  function lsDraw() {
+    const p = LS.p, s = LS.slides[LS.i]; if (!p || !s) return;
+    const t = REDUCED ? 60 : LS.t;
+    if (s.kind === 'cover') { const W = lsCv.clientWidth, H = lsCv.clientHeight; if (!W || !H) return; const bw = Math.min(W * .9, H * .9 * 4 / 3), bh = bw * .75; drawCover(lsCv, p, t, { x: (W - bw) / 2, y: (H - bh) / 2, w: bw, h: bh }); return; }
+    const C = lsCanvas(); if (!C) return; const { g, W, H } = C, c = CATS[p.cat].plate;
+    g.fillStyle = PLATE; g.fillRect(0, 0, W, H); const gr = g.createRadialGradient(W * .72, H * .2, 0, W * .72, H * .2, Math.max(W, H) * .9); gr.addColorStop(0, rgba(c, .16)); gr.addColorStop(1, rgba(c, 0)); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    if (s.kind === 'eq' || s.kind === 'stats') return;
+    const sc = Math.min((W - 20) / LW, (H - 20) / LH), ox = (W - LW * sc) / 2, oy = (H - LH * sc) / 2;
+    g.save(); g.translate(ox, oy); g.scale(sc, sc);
+    try {
+      if (s.kind === 'anim') { const k = s.phase; LANIM[p.id](g, { k, t, c, L: k * 30 + t, P: (kk, a, b) => k > kk ? 1 : k < kk ? 0 : sg(t, a, b) }); }
+      else drawLegacy(g, p, t, c);
+    } catch (err) { console.error('explainer', p.id, s.kind, err); }
+    g.restore();
+  }
+  const ICONS = { play: '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 3.2v11.6c0 .6.7 1 1.2.6l9-5.8c.5-.3.5-1 0-1.3l-9-5.8C5.7 2.2 5 2.6 5 3.2z" fill="currentColor"/></svg>', pause: '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="4" y="3" width="3.6" height="12" rx="1.2" fill="currentColor"/><rect x="10.4" y="3" width="3.6" height="12" rx="1.2" fill="currentColor"/></svg>', replay: '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3.5 9a5.5 5.5 0 1 0 1.8-4.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 2.5v3.6h3.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
+  function updatePlayBtn() { const st = LS.ended ? 'replay' : LS.playing ? 'pause' : 'play'; if (lsPlay.dataset.st !== st) { lsPlay.innerHTML = ICONS[st]; lsPlay.dataset.st = st; lsPlay.setAttribute('aria-label', st === 'replay' ? 'Play again' : st === 'pause' ? 'Pause' : 'Play'); } }
+  function updateReveals() { const t = REDUCED ? 60 : LS.t; LS.rv.forEach(el => { const at = +el.dataset.at || 0; el.classList.toggle('on', t >= at); const b = el.dataset.count != null ? el : el.querySelector('[data-count]'); if (b) { const s = countText(b.dataset.count, sg(t, at, at + 1.4)); const txt = s == null ? b.dataset.count : s; if (b.textContent !== txt) b.textContent = txt; } }); }
+  function updateProgress() { const d = LS.slides[LS.i] ? LS.slides[LS.i].dur : 1; LS.bars.forEach((el, q) => { el.style.transform = `scaleX(${q < LS.i ? 1 : q > LS.i ? 0 : Math.min(1, LS.t / d)})`; }); }
+  function lsShow(i) {
+    LS.i = Math.max(0, Math.min(LS.slides.length - 1, i)); LS.t = 0; LS.ended = false;
+    const p = LS.p, s = LS.slides[LS.i], n = LS.slides.length;
+    lsText.innerHTML = slideText(p, s, LS.i, n); lsText.classList.remove('enter'); void lsText.offsetWidth; lsText.classList.add('enter'); lsText.scrollTop = 0;
+    const vis = slideVisual(p, s); lsHtml.innerHTML = vis; lsHtml.hidden = !vis;
+    LS.rv = [...lsDlg.querySelectorAll('.rv')];
+    if (vis) requestAnimationFrame(() => fitEqs(lsHtml.querySelectorAll('.lv-math'), 10));
+    lsProg.querySelectorAll('.ls-seg').forEach((el, q) => { el.classList.toggle('on', q === LS.i); el.setAttribute('aria-current', q === LS.i ? 'step' : 'false'); });
+    $('#ls-count').textContent = `${LS.i + 1} / ${n}`;
+    updatePlayBtn(); updateReveals(); updateProgress();
+  }
+  function lsTick(now) {
+    if (!lsDlg.open) return;
+    const dt = LS.last ? Math.min(.1, (now - LS.last) / 1000) : 0; LS.last = now;
+    if (LS.playing) { LS.t += dt; const s = LS.slides[LS.i]; if (LS.t >= s.dur) { if (LS.i < LS.slides.length - 1) { lsShow(LS.i + 1); } else { LS.t = s.dur; LS.playing = false; LS.ended = true; updatePlayBtn(); } } }
+    lsDraw(); updateReveals(); updateProgress();
+    LS.raf = requestAnimationFrame(lsTick);
+  }
+  function openLesson(id) {
+    const p = BY[id]; if (!p) return;
+    LS.p = p; LS.slides = lessonSlides(p);
+    lsDlg.style.setProperty('--cp', CATS[p.cat].plate); lsDlg.style.setProperty('--cat', catVar(p.cat));
+    $('#ls-paper').textContent = p.nick;
+    lsProg.innerHTML = LS.slides.map((s, q) => `<button type="button" class="ls-seg" data-i="${q}" title="${esc(s.label)}" aria-label="Slide ${q + 1}: ${esc(s.label)}"><span class="tr"><i></i></span><span class="lb">${esc(s.label)}</span></button>`).join('');
+    LS.bars = [...lsProg.querySelectorAll('.ls-seg i')];
+    if (!lsDlg.open) { try { lsDlg.showModal(); } catch (e) { lsDlg.setAttribute('open', ''); } }
+    cancelAnimationFrame(dRaf);
+    LS.playing = !REDUCED; lsShow(0); LS.last = 0; cancelAnimationFrame(LS.raf); LS.raf = requestAnimationFrame(lsTick);
+  }
+  function lsToggle() { if (LS.ended) { LS.playing = true; lsShow(0); return; } LS.playing = !LS.playing; updatePlayBtn(); }
+  function lsPrev() { if (LS.t > 1.5) { LS.t = 0; LS.ended = false; updatePlayBtn(); } else lsShow(LS.i - 1); }
+  function lsNext() { if (LS.i < LS.slides.length - 1) lsShow(LS.i + 1); else { LS.t = LS.slides[LS.i].dur; LS.playing = false; LS.ended = true; updatePlayBtn(); } }
+  lsPlay.addEventListener('click', lsToggle);
+  $('#ls-prev').addEventListener('click', lsPrev);
+  $('#ls-next').addEventListener('click', lsNext);
+  $('#ls-close').addEventListener('click', () => lsDlg.close());
+  $('#ls-visual').addEventListener('click', lsToggle);
+  lsProg.addEventListener('click', e => { const b = e.target.closest('.ls-seg'); if (b) lsShow(+b.dataset.i); });
+  lsDlg.addEventListener('click', e => { if (e.target === lsDlg) lsDlg.close(); });
+  lsDlg.addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.key === 'Spacebar') && e.target.tagName === 'BUTTON') return;
+    if (e.key === ' ' || e.key === 'k') { e.preventDefault(); lsToggle(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); lsNext(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); lsPrev(); }
+  });
+  lsDlg.addEventListener('close', () => { cancelAnimationFrame(LS.raf); LS.playing = false; if (dlg.open) startDetailAnim(); });
+  $('#d-play').addEventListener('click', () => { if (openId) openLesson(openId); });
 
   /* boot */
   $('#sort').value = state.sort;
